@@ -1,0 +1,145 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="OnlieShopping.master.cs" Inherits="OnlineShopping.Views.OnlieShopping" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <link href="../Content/bootstrap.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-3.0.0.js"></script>
+    <link href="../fontAwesome4.7/fa.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0px;
+            font-size: 13px;
+            font-family: sans-serif;
+            color: #011f34;
+            background-color: cornsilk;
+        }
+        #header-section {
+            margin-top: 0px;
+            background-color: #011f34;
+            /*background-image: linear-gradient(to bottom, #011f34, white);*/
+            padding: 0px 120px 0px 120px;
+            display: flex;
+            justify-content: space-between;
+            height: 60px;
+        }
+        #header-logo-section {
+            width: 15%;
+            margin-top: 13px;
+            font-size: 20px;
+            font-family: Segoe UI Black; /*Algerian;*/
+            font-style: italic;
+            font-weight: bold;
+            color: white;
+        }
+        #header-list-section {
+            width: 73%;
+            margin-top: 20px;
+        }
+        #header-list-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        #header-list-section a {
+            text-decoration: none;
+            font-size: 13px;
+            color: white;
+        }
+        #header-list-section a:hover {
+            text-decoration: none;
+            color: crimson;
+        }
+        .a-link {
+            margin-right: 30px;
+        }
+        #header-login-section {
+            width: 12%;
+            display: flex;
+        }
+        #login-div{
+            width:50%;
+            text-align:center;
+        }
+        #login {
+            float: right;
+            background: white;
+            border-radius: 5px;
+            margin-top: 15px;
+            padding: 5px 10px 5px 10px;
+        }
+        #login a {
+            text-decoration: none;
+            color: #011f34;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+        }
+        #add-cart {
+            width: 50%;
+            margin-top:12px;
+        }
+        #add-cart img {
+            width: 40px;
+            height: auto;
+            border-radius: 5px;
+        }
+        /* ********************* Bootstrap Form Control ******************** */
+        .form-control {
+            font-size: 13px;
+            color: #011f34;
+        }
+    </style>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <div>
+            <section id="header-section">
+                <section id="header-logo-section">
+                    HAPPY WARE
+                </section>
+                <section id="header-list-section">
+                    <ul style="display: flex; justify-content: center;">
+                        <li class="active">
+                            <asp:HyperLink ID="homeLink" runat="server" NavigateUrl="~/Views/Index.aspx" CssClass="a-link">HOME</asp:HyperLink>
+                        </li>
+                        <li>
+                            <asp:HyperLink ID="productLink" runat="server" NavigateUrl="~/Views/AddProduct.aspx" CssClass="a-link">PRODUCT</asp:HyperLink>
+                        </li>
+                        <li>
+                            <asp:HyperLink ID="orderLink" runat="server" NavigateUrl="~/Views/OrderInfoList.aspx" CssClass="a-link">ORDER</asp:HyperLink>
+                        </li>
+                        <li>
+                            <asp:HyperLink ID="customerLink" runat="server" NavigateUrl="~/Views/CustomerList.aspx" CssClass="a-link">CUSTOMER</asp:HyperLink>
+                        </li>
+                        <li>
+                            <asp:HyperLink ID="wishlistLink" runat="server" NavigateUrl="~/Views/WishlistInfo.aspx" CssClass="a-link">WISHLIST</asp:HyperLink>
+                        </li>
+                        <li>
+                            <asp:HyperLink ID="myOrderLink" runat="server" NavigateUrl="~/Views/OrderInfoList.aspx" CssClass="a-link">MY ORDER</asp:HyperLink>
+                        </li>
+                    </ul>
+                </section>
+                <section id="header-login-section">
+                    <div id="add-cart">
+                        <a href="AddToCart.aspx">
+                            <img src="../Images/AddtoCard4.png" />
+                        </a>
+                    </div>
+                    <div id="login-div">
+                        <div id="login">
+                            <a href="Login.aspx" runat="server" id="la"></a>
+                        </div>
+                    </div>
+                </section>
+            </section>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+</body>
+</html>
