@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using OnlineShopping.Models;
 
 namespace OnlineShopping.Views
 {
@@ -21,10 +24,20 @@ namespace OnlineShopping.Views
                 IsAdmin = Request.Cookies["IsAdmin"].Value;
             }
 
-            if(!String.IsNullOrEmpty(CustomerID))
+            if (!String.IsNullOrEmpty(CustomerID))
             {
                 la.InnerHtml = "Logout";
-            }   
+                int cartQty = 0;
+                List<CartInfo> lstCart = GettingJson(CustomerID);
+                if (lstCart.Count > 0)
+                {
+                    foreach(CartInfo obj in lstCart)
+                    {
+                        cartQty += obj.Quantity;
+                    }
+                    lblCartQty.Text = cartQty.ToString();
+                }
+            }
             else
             {
                 la.InnerHtml = "Login";
@@ -48,6 +61,22 @@ namespace OnlineShopping.Views
                 myOrderLink.Visible = true;
             }
            
+        }
+        public static List<CartInfo> GettingJson(string CustomerID)
+        {
+            string cartFile = "~/CartJson/" + CustomerID + "_cart.json";
+            string path = HttpContext.Current.Server.MapPath(cartFile);
+            List<CartInfo> lstCart = new List<CartInfo>();
+            if (File.Exists(path))
+            {
+                StreamReader sr = new StreamReader(path);
+                string jsonString = sr.ReadToEnd();
+                sr.Close();
+                JavaScriptSerializer ser = new JavaScriptSerializer();
+
+                lstCart = ser.Deserialize<List<CartInfo>>(jsonString);
+            }
+            return lstCart;
         }
     }
 }

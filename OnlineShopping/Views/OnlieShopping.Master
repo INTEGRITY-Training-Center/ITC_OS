@@ -8,6 +8,7 @@
     <link href="../Content/bootstrap.css" rel="stylesheet" />
     <script src="../Scripts/jquery-3.0.0.js"></script>
     <link href="../fontAwesome4.7/fa.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-3.0.0.min.js"></script>
     <style>
         body {
             margin: 0px;
@@ -35,7 +36,7 @@
             color: white;
         }
         #header-list-section {
-            width: 73%;
+            width: 72%;
             margin-top: 20px;
         }
         #header-list-section ul {
@@ -55,7 +56,7 @@
             margin-right: 30px;
         }
         #header-login-section {
-            width: 12%;
+            width: 13%;
             display: flex;
         }
         #login-div{
@@ -79,6 +80,7 @@
         #add-cart {
             width: 50%;
             margin-top:12px;
+            margin-right: 5px;
         }
         #add-cart img {
             width: 40px;
@@ -126,8 +128,12 @@
                 </section>
                 <section id="header-login-section">
                     <div id="add-cart">
-                        <a href="AddToCart.aspx">
+                        <a href="AddToCart.aspx" style="display:flex;">
                             <img src="../Images/AddtoCard4.png" />
+                            <div>
+                                <asp:Label ID="lblCartQty" CssClass="badge badge-light" runat="server" Text=""></asp:Label>
+                            </div>
+                            
                         </a>
                     </div>
                     <div id="login-div">

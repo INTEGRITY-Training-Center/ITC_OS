@@ -35,10 +35,49 @@
         #addWish i:hover {
             color: springgreen;
         }
+        .addToCart {
+            border: 1px solid #011f34;
+            text-decoration: none;
+            padding: 2px 6px 2px 6px;
+            border-radius: 5px;
+            background-color: #011f34;
+            color: white;
+        }
+        .addToCart:hover{
+            text-decoration:none;
+            color:white;
+        }
+        /* ============== Search Textbox =============*/
+        .search-div{
+            width:100%;
+            display:flex;
+            justify-content:space-around;
+        }
+        .search-div span {
+            position: absolute;
+            z-index: 2;
+            display: block;
+            width: 35px;
+            margin-top: 10px;
+            text-align: center;
+            pointer-events: none;
+            color: #aaa;
+        }
+        .search-div .form-control {
+            padding-left: 30px;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div id="f-div">
+        <div class="form-group search-div">
+            <div class="col-md-6">
+                <span class="fa fa-search"></span>
+                <%--<input type="text" class="form-control" placeholder="Search with Item Name..." id="txt_Search">--%>
+                <asp:TextBox ID="txtSearching" CssClass="form-control" placeholder="Search with Item Name..." runat="server" OnTextChanged="txtSearching_TextChanged"></asp:TextBox>
+            </div>            
+        </div>
+
         <asp:ListView ID="productList" runat="server" DataKeyNames="ProductID" GroupItemCount="4">
             <LayoutTemplate>
                 <table runat="server">
@@ -73,12 +112,12 @@
                                         </div>
                                     </a>
                                 </div>
-                                <span><%# Eval("ProductName") %></span>
+                                <span id="pname<%# Eval("ProductID") %>"><%# Eval("ProductName") %></span>
                                 <br />
-                                <span style="display: block; margin-bottom: 5px;"><b>Price: <%# Eval("ProductPrice") %></b></span>
+                                <span style="display: block; margin-bottom: 5px;" id="pprice<%# Eval("ProductID") %>"><b>Price: <%# Eval("ProductPrice") %></b></span>
 
                                 <%--/AddToCart.aspx?productID=<%# Eval("ProductID") %>--%>
-                                <a href="#" style="text-decoration: none; padding: 5px; border-radius: 5px;" class="btn-dark addToCart" id="<%# Eval("ProductID") %>">
+                                <a href="#" style="text-decoration: none; padding: 5px; border-radius: 5px;" class="addToCart" id="<%# Eval("ProductID") %>">
                                     <b>Add To Cart<b>
                                 </a>
                             </td>
@@ -93,14 +132,58 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
+
+            var availableTags = ["States", "Australia", "Indies"]
+            $("#txtSearching").autocomplete({
+                source: availableTags
+            });
+
+            //$("#txtSearching").autocomplete({
+            //    source: function (request, response) {
+            //        var param = { ProductName: $('#txtSearching').val() };
+            //        $.ajax({
+            //            type: "POST",
+            //            url: "Index.aspx/GetAllProductsByName",
+            //            data: JSON.stringify(param),
+            //            dataType: "json",
+            //            contentType: "application/json; charset=utf-8",
+            //            dataFilter: function (data) { return data; },
+            //            success: function (data) {
+            //                console.log(JSON.stringify(data));
+            //                response($.map(data.d, function (item) {
+            //                    return {
+            //                        value: item.ProductName + " (" + item.ProductPrice + ")"
+            //                    }
+            //                }))
+            //            },
+            //            error: function (XMLHttpRequest, textStatus, errorThrown) {
+            //                var err = eval("(" + XMLHttpRequest.responseText + ")");
+            //                alert(err.Message)
+            //                // console.log("Ajax Error!");    
+            //            }
+            //        });
+            //    },
+            //    minLength: 1 //This is the Char length of inputTextBox    
+            //}); 
+
+            //$('#txtSearching').on("keypress", function (e) {
+            //    if (e.keyCode == 13) {
+            //        alert($(this).val());
+            //        return false; //Because of "System.Web.HttpException: Maximum request length exceeded." error
+            //    }
+            //});
+
             $('.addToCart').click(function () {
                 var product_id = $(this).attr("id");
-                //var c = $.cookie("CustomerID");
-                //alert(c);
+                var product_name = $("#pname" + product_id).text();
+                var pprice = $("#pprice" + product_id).text().split(' ');
+                var product_price = pprice[1];
+
+                //alert(product_name + "::" + product_price);
                 $.ajax({
                     type: "POST",
                     url: "Index.aspx/InsertCart",
-                    data: JSON.stringify({ product_id: product_id }),
+                    data: JSON.stringify({ product_id: product_id, product_name: product_name, product_price: product_price }),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
@@ -110,7 +193,16 @@
                             //console.dir(response.d);
                         }
                         else {
-                            alert("Successfully added to the card!.");
+                            var lblCartQty = document.getElementById('<%=Master.FindControl("lblCartQty").ClientID%>');
+                            if (lblCartQty.innerText.length > 0) {
+                                var cartQty = parseInt(lblCartQty.innerText) + parseInt(1);
+                                lblCartQty.innerText = cartQty;
+                            }
+                            else {
+                                lblCartQty.innerText = "1";
+                            }
+                                                        
+                            //alert("Successfully added to the card!.");
                         }
                     },
                     failure: function (response) {

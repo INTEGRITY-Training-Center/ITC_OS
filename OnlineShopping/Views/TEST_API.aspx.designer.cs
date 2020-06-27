@@ -11,25 +11,16 @@ namespace OnlineShopping.Views
 {
 
 
-    public partial class Index
+    public partial class TEST_API
     {
 
         /// <summary>
-        /// txtSearching control.
+        /// gvExpenses control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSearching;
-
-        /// <summary>
-        /// productList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView productList;
+        protected global::System.Web.UI.WebControls.GridView gvExpenses;
     }
 }

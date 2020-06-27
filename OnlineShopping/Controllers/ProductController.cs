@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq.SqlClient;
 using System.Linq;
 using System.Web;
 using OnlineShopping.Data;
@@ -61,6 +62,45 @@ namespace OnlineShopping.Controllers
             }
 
             return lst_products;
+        }
+
+        public List<Product> GetAllProductsByName(string ProductName)
+        {
+            List<Product> lst_products = new List<Product>();
+            using (OnlineShoppingDataContext db = new OnlineShoppingDataContext())
+            {
+                //var data = (from a in db.tbl_Products where a.ProductName like '*/12/*' orderby a.ProductName select a).ToList();
+
+                var data = (from p in db.tbl_Products
+                             where SqlMethods.Like(p.ProductName, "%" + ProductName + "%")
+                             select p).ToList();
+                foreach (var obj in data)
+                {
+                    Product obj_product = new Product();
+                    obj_product.ProductID = obj.ProductID;
+                    obj_product.ProductName = obj.ProductName;
+                    obj_product.ProductCategory = obj.ProductCategory;
+                    obj_product.ProductPrice = obj.ProductPrice;
+                    obj_product.ProductDescription = obj.ProductDescription;
+                    obj_product.ProductImage = obj.ProductImage.ToArray();
+
+                    lst_products.Add(obj_product);
+                }
+            }
+
+            return lst_products;
+        }
+
+        public byte[] GetProductImagebyID(string productID)
+        {
+            byte[] pimage;
+            using (OnlineShoppingDataContext db = new OnlineShoppingDataContext())
+            {
+                tbl_Product table_product = (from a in db.tbl_Products where a.ProductID == productID select a).FirstOrDefault();
+                pimage = table_product.ProductImage.ToArray();
+            }
+
+            return pimage;
         }
     }
 }

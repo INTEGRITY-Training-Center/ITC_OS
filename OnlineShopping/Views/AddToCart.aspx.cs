@@ -6,10 +6,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Microsoft.Reporting.WebForms;
+using Newtonsoft.Json;
 using OnlineShopping.Controllers;
 using OnlineShopping.Models;
 
@@ -27,7 +29,19 @@ namespace OnlineShopping.Views
                 {
                     if (!String.IsNullOrEmpty(customerID))
                     {
-                        DataBindToPage(customerID);
+                        ProductController productControl = new ProductController();
+
+                        List<CartInfo> lstCartInfo = new List<CartInfo>();
+                        List<CartInfo> lstCart = GettingJson(customerID);
+                        decimal d_total = 0;
+                        foreach (CartInfo obj in lstCart)
+                        {
+                            d_total += obj.TotalPrice;
+                            obj.ProductImage = productControl.GetProductImagebyID(obj.ProductID);
+
+                            lstCartInfo.Add(obj);
+                        }
+                        DataBindToPage(lstCartInfo, d_total, customerID);
                     }
                     else
                     {
@@ -41,22 +55,12 @@ namespace OnlineShopping.Views
             }
         }
 
-        public void DataBindToPage(string customerID)
+        public void DataBindToPage(List<CartInfo> lstCartInfo, decimal d_total, string customerID)
         {
-            CartController cartControl = new CartController();
-            DataTable dt_Cart = new DataTable();
-            dt_Cart = cartControl.GetAllCartByCustomer(customerID);
-            //Bind to List View
-            productList.DataSource = dt_Cart;
+            productList.DataSource = lstCartInfo;
             productList.DataBind();
-            //Bind to Total
-            decimal d_total = 0;
-            foreach (DataRow dr in dt_Cart.Rows)
-            {
-                d_total += Convert.ToDecimal(dr["TotalPrice"]);
-            }
 
-            if(dt_Cart.Rows.Count <= 0)
+            if (lstCartInfo.Count <= 0)
             {
                 btnCreateOrder.Enabled = false;
             }
@@ -69,30 +73,112 @@ namespace OnlineShopping.Views
             customer_id.InnerText = customerID;
         }
 
-        [WebMethod]
-        public static string UpdateCart(string cart_id, int currentQty)
+        public static List<CartInfo> GettingJson(string CustomerID)
         {
-            string result = "";
-            CartController obj_cart_control = new CartController();
-            CartInfo obj_cart = new CartInfo();
-            obj_cart.CartID = cart_id;
-            obj_cart.Quantity = currentQty;
-            obj_cart_control.UpdateCart(obj_cart);
-            result = "Success";
-            
+            string cartFile = "~/CartJson/" + CustomerID + "_cart.json";
+            string path = HttpContext.Current.Server.MapPath(cartFile);
+            List<CartInfo> lstCart = new List<CartInfo>();
+            if (File.Exists(path))
+            {
+                StreamReader sr = new StreamReader(path);
+                string jsonString = sr.ReadToEnd();
+                sr.Close();
+                JavaScriptSerializer ser = new JavaScriptSerializer();
+
+                lstCart = ser.Deserialize<List<CartInfo>>(jsonString);
+            }
+            return lstCart;
+        }
+
+        public static void MakeJson(List<CartInfo> lstCart, string CustomerID)
+        {
+            string cartFile = "~/CartJson/" + CustomerID + "_cart.json";
+            string path = HttpContext.Current.Server.MapPath(cartFile);
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
+            string res = JsonConvert.SerializeObject(lstCart);
+            using (var sw = new StreamWriter(path, true))
+            {
+                sw.WriteLine(res.ToString());
+                sw.Close();
+            }
+        }
+
+        [WebMethod]
+        public static string UpdateCart(string cart_id, int currentQty, string customer_id)
+        {
+            string result = "Success";
+            List<CartInfo> lstCartInfo = new List<CartInfo>();
+            List<CartInfo> lstCart = GettingJson(customer_id);
+            foreach (CartInfo obj in lstCart)
+            {
+                if(obj.CartID.CompareTo(cart_id) == 0)
+                {
+                    obj.Quantity = currentQty;
+                    obj.TotalPrice = currentQty * obj.ProductPrice;
+                }
+                lstCartInfo.Add(obj);
+            }
+            MakeJson(lstCartInfo, customer_id);
             return result;
         }
 
         protected void productList_ItemCommand(object sender, ListViewCommandEventArgs e)
         {
+            string customerID = customer_id.InnerText;
             var cartID = e.CommandArgument;
 
             if (e.CommandName == "Delete")
             {
-                CartController cartControl = new CartController();
-                cartControl.DeleteCart(cartID.ToString());
+                decimal d_total = 0; int delCartQty = 0;
+                ProductController productControl = new ProductController();
+                List<CartInfo> lstCartInfo = new List<CartInfo>();
+                List<CartInfo> lstCartInfoWithImage = new List<CartInfo>();
+                List<CartInfo> lstCart = GettingJson(customerID);
+                foreach (CartInfo obj in lstCart)
+                {
+                    if (obj.CartID != cartID.ToString())
+                    {
+                        d_total += obj.TotalPrice;
 
-                DataBindToPage(customer_id.InnerText);
+                        //For Json file, can't add image byty[] property.
+                        CartInfo obj_cart = new CartInfo();
+                        obj_cart.CartID = obj.CartID;
+                        obj_cart.ProductID = obj.ProductID;
+                        obj_cart.ProductName = obj.ProductName;
+                        obj_cart.Quantity = obj.Quantity;
+                        obj_cart.ProductPrice = obj.ProductPrice;
+                        obj_cart.TotalPrice = obj.TotalPrice;
+                        obj_cart.CustomerID = obj.CustomerID;
+                        lstCartInfo.Add(obj_cart);
+
+                        obj.ProductImage = productControl.GetProductImagebyID(obj.ProductID);
+                        lstCartInfoWithImage.Add(obj);
+                    }
+                    else
+                    {
+                        delCartQty = obj.Quantity;
+                    }
+                }
+
+                Label lbl = (Label)(this.Master).FindControl("lblCartQty");
+                int cartQty = Convert.ToInt32(String.IsNullOrEmpty(lbl.Text) ? "0" : lbl.Text);
+                if((cartQty - delCartQty) > 0)
+                {
+                    lbl.Text = (cartQty - delCartQty).ToString();
+                }
+                else
+                {
+                    lbl.Text = "";
+                }
+               
+
+                MakeJson(lstCartInfo, customerID);
+                
+                DataBindToPage(lstCartInfoWithImage, d_total, customerID);
             }
         }
         //Need to create because of "productList_ItemCommand" event
@@ -103,29 +189,27 @@ namespace OnlineShopping.Views
 
         protected void btnCreateOrder_Click(object sender, EventArgs e)
         {
-            int orderQty = 0;
+            int orderQty = 0;decimal totalAmount = 0;
             string customerID = customer_id.InnerText;
 
-            //============ Data Preparation ============
+            //============ Detail Data Preparation ============
             List<OrderDetail> lst_OrderDetailInfo = new List<OrderDetail>();
-
-            CartController cartControl = new CartController();
-            DataTable dt_Cart = new DataTable();
-            dt_Cart = cartControl.GetAllCartByCustomer(customerID);
-            foreach(DataRow dr in dt_Cart.Rows)
+            List<CartInfo> lstCart = GettingJson(customerID);
+            foreach (CartInfo obj in lstCart)
             {
-                orderQty += Convert.ToInt32(dr["Quantity"]);
+                orderQty += obj.Quantity;
+                totalAmount += obj.Quantity * obj.ProductPrice;
                 OrderDetail obj_OrderDetail = new OrderDetail();
-                obj_OrderDetail.ProductID = dr["ProductID"].ToString();
-                obj_OrderDetail.Quantity = Convert.ToInt32(dr["Quantity"]);
-                obj_OrderDetail.Price = Convert.ToDecimal(dr["ProductPrice"]);
+                obj_OrderDetail.ProductID = obj.ProductID;
+                obj_OrderDetail.Quantity = obj.Quantity;
+                obj_OrderDetail.Price = obj.ProductPrice;
                 lst_OrderDetailInfo.Add(obj_OrderDetail);
             }
-
+            //============ Header Data Preparation ============
             OrderInfo obj_OrderInfo = new OrderInfo();
             obj_OrderInfo.OrderDate = DateTime.Now;
             obj_OrderInfo.OrderQuantity = orderQty;
-            obj_OrderInfo.OrderAmount = Convert.ToDecimal(lblGrandTotal.Text);
+            obj_OrderInfo.OrderAmount = totalAmount;// Convert.ToDecimal(lblGrandTotal.Text);
             obj_OrderInfo.OrderDescription = txtOrderDescription.Text;
             obj_OrderInfo.OrderStatus = "Created";
             obj_OrderInfo.CustomerID = customerID;
@@ -138,13 +222,12 @@ namespace OnlineShopping.Views
                 OrderDetailController orderDetailControl = new OrderDetailController();
                 orderDetailControl.InsertOrderDetail(return_OrderInfo.OrderID, lst_OrderDetailInfo);
 
-                //============ Delete Data ============
-                cartControl.DeleteAllCartByCustomerID(customerID);
-                File.Delete(Server.MapPath(customerID + "_cart.json"));
+                //============ Delete Json File ============
+                File.Delete(Server.MapPath("~/CartJson/" + customerID + "_cart.json"));
                 ExportOrderVoucher(return_OrderInfo.OrderID, return_OrderInfo.OrderNo);
             }
 
-            Response.Redirect("Index.aspx");
+            Response.Redirect("OrderInfoList.aspx");
             #region +++ When you want to get data from Listview +++
             ////for (int i = 0; i < productList.Items.Count; i++)
             ////{
@@ -195,9 +278,7 @@ namespace OnlineShopping.Views
             //message.CC.Add("santosh.poojari@gmail.com");
             Attachment attachment = new Attachment(memoryStream, OrderNo + ".pdf");
             message.Attachments.Add(attachment);
-            
-            message.Body = @"Dear Customer, \n \t This is your order voucher. Please see in attached file!";
-
+            message.Body = String.Format("Dear {0},<p>This is your order voucher. Please see in attached file!</P>", obj_OrderInfo.CustomerName);
             NetworkCredential cred = new NetworkCredential("dr.mail.mm@gmail.com", "DDrrmm11@@");
 
             SmtpClient smtp = new SmtpClient();

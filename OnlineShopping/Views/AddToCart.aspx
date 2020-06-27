@@ -176,22 +176,29 @@
                     var currentQty = $(lblqty).text();
                     var price = parseFloat($(lblprice).text());
                     var subTotal = parseFloat($('#<%=lblSubTotal.ClientID%>').html());
+                    var cartQty = parseInt(0);
+                    var lblCartQty = document.getElementById('<%=Master.FindControl("lblCartQty").ClientID%>');
+                    if (lblCartQty.innerText.length > 0) {
+                        cartQty = parseInt(lblCartQty.innerText);
+                    }
 
                     if (($(this).attr("id")) == "add") {
+                        cartQty = cartQty + parseInt(1);
                         currentQty = parseInt(currentQty) + parseInt(1);
                         subTotal = subTotal + price;
                     }
                     else {
+                        cartQty = cartQty - parseInt(1);
                         currentQty = parseInt(currentQty) - parseInt(1);
                         subTotal = subTotal - price;
                     }
-                                        
+                    
                     var total = parseInt(currentQty) * price;
 
                     $.ajax({
                         type: "POST",
                         url: "AddToCart.aspx/UpdateCart",
-                        data: JSON.stringify({ cart_id: cart_id, currentQty: currentQty }),
+                        data: JSON.stringify({ cart_id: cart_id, currentQty: currentQty, customer_id: customer_id }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (response) {
@@ -200,6 +207,12 @@
                                 $(lbltotal).text(total.toFixed(2));
                                 $('#<%=lblSubTotal.ClientID%>').html(subTotal.toFixed(2));
                                 $('#<%=lblGrandTotal.ClientID%>').html(subTotal.toFixed(2));
+                                if (cartQty > 0) {
+                                    lblCartQty.innerText = cartQty;                                    
+                                }
+                                else {
+                                    lblCartQty.innerText = "";
+                                }
                             }
                             else {
                                 alert("WARNING :: Can't update data. Something wrong!")                               

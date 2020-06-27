@@ -16,6 +16,7 @@ namespace OnlineShopping.Views
         {
             //HtmlAnchor link = (HtmlAnchor)(this.Master).FindControl("la");
             //string login_state = link.InnerText;
+            txtCusName.Focus();
             if (Request.Cookies["CustomerID"] != null)
             {
                 string s = Request.Cookies["CustomerID"].Value;

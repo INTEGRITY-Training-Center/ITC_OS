@@ -16,14 +16,25 @@ namespace OnlineShopping.Controllers
             {
                 foreach (OrderDetail obj_OrderDetail in lst_OrderDetail)
                 {
-                    tbl_OrderDetail tbl_orderdetail = new tbl_OrderDetail();
-                    tbl_orderdetail.OrderID = OrderID.ToString();
-                    tbl_orderdetail.ProductID = obj_OrderDetail.ProductID;
-                    tbl_orderdetail.Quantity = obj_OrderDetail.Quantity;
-                    tbl_orderdetail.Price = obj_OrderDetail.Price;
+                    tbl_OrderDetail tbl_detail = (from a in db.tbl_OrderDetails
+                                                  where a.ProductID == obj_OrderDetail.ProductID && a.OrderID == OrderID
+                                                  select a).FirstOrDefault();
+                    if(tbl_detail != null)
+                    {
+                        tbl_detail.Quantity = Convert.ToInt32(tbl_detail.Quantity) + obj_OrderDetail.Quantity;
+                        db.SubmitChanges();
+                    }
+                    else
+                    {
+                        tbl_OrderDetail tbl_orderdetail = new tbl_OrderDetail();
+                        tbl_orderdetail.OrderID = OrderID.ToString();
+                        tbl_orderdetail.ProductID = obj_OrderDetail.ProductID;
+                        tbl_orderdetail.Quantity = obj_OrderDetail.Quantity;
+                        tbl_orderdetail.Price = obj_OrderDetail.Price;
 
-                    db.tbl_OrderDetails.InsertOnSubmit(tbl_orderdetail);
-                    db.SubmitChanges();
+                        db.tbl_OrderDetails.InsertOnSubmit(tbl_orderdetail);
+                        db.SubmitChanges();
+                    }                    
                 }
             }
         }
