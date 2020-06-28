@@ -133,10 +133,10 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            var availableTags = ["States", "Australia", "Indies"]
-            $("#txtSearching").autocomplete({
-                source: availableTags
-            });
+            //var availableTags = ["States", "Australia", "Indies"]
+            //$("#txtSearching").autocomplete({
+            //    source: availableTags
+            //});
 
             //$("#txtSearching").autocomplete({
             //    source: function (request, response) {
