@@ -6,13 +6,17 @@
             margin: 20px 120px 0px 120px;
         }
         .item {
-            width: 40%;
+            width: 35%;
         }
         .qty {
             width: 15%;
             text-align: center;
         }
         .price {
+            width: 15%;
+            text-align: right;
+        }
+        .discount {
             width: 15%;
             text-align: right;
         }
@@ -24,8 +28,8 @@
             margin-top: 10px;
             margin-bottom: 10px;
         }
-        .qty a{
-            text-decoration:none;
+        .qty a {
+            text-decoration: none;
         }
         .qty label{
             margin-left:10px;
@@ -68,7 +72,8 @@
         <h5 style="font-size:25px; text-align: center; margin-bottom: 20px;">Your Cart</h5>
         
         <div style="display:none;">
-            <p id="customer_id" runat="server"></p>
+            <asp:TextBox ID="txtCustomerID" runat="server" CssClass="form-control"></asp:TextBox>
+            <asp:TextBox ID="txtTax" runat="server" CssClass="form-control"></asp:TextBox>
         </div>
         <div>
             <asp:ListView ID="productList" runat="server" DataKeyNames="ProductID" OnItemCommand="productList_ItemCommand" OnItemDeleting="productList_ItemDeleting">
@@ -78,10 +83,11 @@
                             <th class="item">Item</th>
                             <th class="qty">Quantity</th>
                             <th class="price">Price</th>
+                            <th class="discount">Discount</th>
                             <th class="total">Total</th>
                         </tr>
                         <tr>
-                            <td colspan="4"><hr /></td>
+                            <td colspan="5"><hr /></td>
                         </tr>
                         <tr id="itemPlaceholder" runat="server"></tr>
                     </table>
@@ -113,6 +119,9 @@
                             <label id="price<%# Eval("CartID") %>"><%# Eval("ProductPrice") %></label>     
                             <%--<asp:Label ID="lbl_ProductID" runat="server" Text='<%# Eval("ProductID") %>' Visible="false"></asp:Label>--%>
                         </td>
+                        <td class="discount">
+                            <label id="discount<%# Eval("CartID") %>"><%# Eval("DiscountAmount") %></label>     
+                        </td>
                         <td class="total">
                             <label id="total<%# Eval("CartID") %>" style="margin-right:15px;"><%# Eval("TotalPrice") %></label>
                             <asp:LinkButton runat="server" CommandName="Delete" CommandArgument='<%# Eval("CartID") %>'
@@ -122,7 +131,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="4">
+                        <td colspan="5">
                             <hr />
                         </td>
                     </tr>
@@ -141,7 +150,7 @@
             </section>
             <hr />
             <section class="t-section">
-                <asp:Label ID="Label3" runat="server" Text="Tax :"></asp:Label>
+                <asp:Label ID="LabelTax" runat="server" Text="Tax () : "></asp:Label>
                 <asp:Label ID="lblTax" runat="server" Text="0.00"></asp:Label>
             </section>
             <hr />
@@ -163,8 +172,8 @@
         $(document).ready(function () {
             $(".qty").on("click", "a", function () {
                 var cart_id = $(this).attr("class");
-                var customer_id = $('p').html();//can get with only tag name
-                
+                var customer_id = $('#<%=txtCustomerID.ClientID%>').val();//can get with only tag name 
+                var commertialTax = parseFloat($('#<%=txtTax.ClientID%>').val());
                 if (customer_id.length <= 0) {
                     window.location.href = "/Views/Login.aspx";
                 }
@@ -172,9 +181,11 @@
                     var lblqty = "#qty" + cart_id;
                     var lbltotal = "#total" + cart_id;
                     var lblprice = "#price" + cart_id;
+                    var lbldiscount = "#discount" + cart_id;
 
                     var currentQty = $(lblqty).text();
                     var price = parseFloat($(lblprice).text());
+                    var discountAmt = parseFloat($(lbldiscount).text());
                     var subTotal = parseFloat($('#<%=lblSubTotal.ClientID%>').html());
                     var cartQty = parseInt(0);
                     var lblCartQty = document.getElementById('<%=Master.FindControl("lblCartQty").ClientID%>');
@@ -185,15 +196,16 @@
                     if (($(this).attr("id")) == "add") {
                         cartQty = cartQty + parseInt(1);
                         currentQty = parseInt(currentQty) + parseInt(1);
-                        subTotal = subTotal + price;
+                        subTotal = subTotal + (price - discountAmt);
                     }
                     else {
                         cartQty = cartQty - parseInt(1);
                         currentQty = parseInt(currentQty) - parseInt(1);
-                        subTotal = subTotal - price;
+                        subTotal = subTotal - (price - discountAmt);
                     }
-                    
-                    var total = parseInt(currentQty) * price;
+                    var total = parseInt(currentQty) * (price - discountAmt);
+                    var tax = subTotal * (parseFloat(commertialTax) / 100);
+                    var grandTotal = subTotal + tax;
 
                     $.ajax({
                         type: "POST",
@@ -206,7 +218,8 @@
                                 $(lblqty).text(currentQty);
                                 $(lbltotal).text(total.toFixed(2));
                                 $('#<%=lblSubTotal.ClientID%>').html(subTotal.toFixed(2));
-                                $('#<%=lblGrandTotal.ClientID%>').html(subTotal.toFixed(2));
+                                $('#<%=lblTax.ClientID%>').html(tax.toFixed(2));
+                                $('#<%=lblGrandTotal.ClientID%>').html(grandTotal.toFixed(2));
                                 if (cartQty > 0) {
                                     lblCartQty.innerText = cartQty;                                    
                                 }

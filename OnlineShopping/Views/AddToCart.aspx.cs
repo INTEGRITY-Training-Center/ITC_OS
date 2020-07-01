@@ -14,6 +14,7 @@ using Microsoft.Reporting.WebForms;
 using Newtonsoft.Json;
 using OnlineShopping.Controllers;
 using OnlineShopping.Models;
+using OnlineShopping.Properties;
 
 namespace OnlineShopping.Views
 {
@@ -30,14 +31,17 @@ namespace OnlineShopping.Views
                     if (!String.IsNullOrEmpty(customerID))
                     {
                         ProductController productControl = new ProductController();
+                        ProductDiscountController productDiscountController = new ProductDiscountController();
 
                         List<CartInfo> lstCartInfo = new List<CartInfo>();
                         List<CartInfo> lstCart = GettingJson(customerID);
                         decimal d_total = 0;
                         foreach (CartInfo obj in lstCart)
                         {
-                            d_total += obj.TotalPrice;
                             obj.ProductImage = productControl.GetProductImagebyID(obj.ProductID);
+                            obj.DiscountAmount = productDiscountController.GetDiscountByProductID(obj.ProductID);
+                            obj.TotalPrice = obj.Quantity * (obj.ProductPrice - obj.DiscountAmount);
+                            d_total += obj.TotalPrice;
 
                             lstCartInfo.Add(obj);
                         }
@@ -68,9 +72,15 @@ namespace OnlineShopping.Views
             {
                 btnCreateOrder.Enabled = true;
             }
-            lblSubTotal.Text = d_total.ToString();// String.Format("{0:n}", d_total);  // Output: 1,234.00
-            lblGrandTotal.Text = d_total.ToString();// String.Format("{0:n}", d_total);
-            customer_id.InnerText = customerID;
+            decimal taxPercentage = Settings.Default.CommercialTax;
+            decimal commercialTaxAmt = decimal.Round(d_total * (taxPercentage / 100), 2);
+            lblTax.Text = commercialTaxAmt.ToString();
+            lblSubTotal.Text = decimal.Round(d_total, 2).ToString();// String.Format("{0:n}", d_total);  // Output: 1,234.00
+            lblGrandTotal.Text = decimal.Round(d_total + commercialTaxAmt, 2).ToString();// String.Format("{0:n}", d_total);
+            LabelTax.Text = "Tax (" + taxPercentage.ToString() + "%) : ";
+            //Keep data
+            txtCustomerID.Text = customerID;
+            txtTax.Text = taxPercentage.ToString();
         }
 
         public static List<CartInfo> GettingJson(string CustomerID)
@@ -128,13 +138,15 @@ namespace OnlineShopping.Views
 
         protected void productList_ItemCommand(object sender, ListViewCommandEventArgs e)
         {
-            string customerID = customer_id.InnerText;
+            string customerID = txtCustomerID.Text;
             var cartID = e.CommandArgument;
 
             if (e.CommandName == "Delete")
             {
                 decimal d_total = 0; int delCartQty = 0;
                 ProductController productControl = new ProductController();
+                ProductDiscountController productDiscountController = new ProductDiscountController();
+
                 List<CartInfo> lstCartInfo = new List<CartInfo>();
                 List<CartInfo> lstCartInfoWithImage = new List<CartInfo>();
                 List<CartInfo> lstCart = GettingJson(customerID);
@@ -142,8 +154,6 @@ namespace OnlineShopping.Views
                 {
                     if (obj.CartID != cartID.ToString())
                     {
-                        d_total += obj.TotalPrice;
-
                         //For Json file, can't add image byty[] property.
                         CartInfo obj_cart = new CartInfo();
                         obj_cart.CartID = obj.CartID;
@@ -156,7 +166,11 @@ namespace OnlineShopping.Views
                         lstCartInfo.Add(obj_cart);
 
                         obj.ProductImage = productControl.GetProductImagebyID(obj.ProductID);
+                        obj.DiscountAmount = productDiscountController.GetDiscountByProductID(obj.ProductID);
+                        obj.TotalPrice = obj.Quantity * (obj.ProductPrice - obj.DiscountAmount);
                         lstCartInfoWithImage.Add(obj);
+
+                        d_total += obj.TotalPrice;
                     }
                     else
                     {
@@ -190,26 +204,32 @@ namespace OnlineShopping.Views
         protected void btnCreateOrder_Click(object sender, EventArgs e)
         {
             int orderQty = 0;decimal totalAmount = 0;
-            string customerID = customer_id.InnerText;
+            string customerID = txtCustomerID.Text;
+            decimal taxPercentage = Convert.ToDecimal(txtTax.Text);
 
             //============ Detail Data Preparation ============
+            ProductDiscountController productDiscountController = new ProductDiscountController();
             List<OrderDetail> lst_OrderDetailInfo = new List<OrderDetail>();
             List<CartInfo> lstCart = GettingJson(customerID);
             foreach (CartInfo obj in lstCart)
             {
                 orderQty += obj.Quantity;
-                totalAmount += obj.Quantity * obj.ProductPrice;
                 OrderDetail obj_OrderDetail = new OrderDetail();
                 obj_OrderDetail.ProductID = obj.ProductID;
                 obj_OrderDetail.Quantity = obj.Quantity;
                 obj_OrderDetail.Price = obj.ProductPrice;
+                obj_OrderDetail.DiscountAmount = productDiscountController.GetDiscountByProductID(obj.ProductID);
                 lst_OrderDetailInfo.Add(obj_OrderDetail);
+
+                totalAmount += obj.Quantity * (obj.ProductPrice - obj.DiscountAmount);
             }
+            decimal commercialTax = totalAmount * (taxPercentage / 100);
             //============ Header Data Preparation ============
             OrderInfo obj_OrderInfo = new OrderInfo();
             obj_OrderInfo.OrderDate = DateTime.Now;
             obj_OrderInfo.OrderQuantity = orderQty;
-            obj_OrderInfo.OrderAmount = totalAmount;// Convert.ToDecimal(lblGrandTotal.Text);
+            obj_OrderInfo.Tax = commercialTax;//When I get directly from lable, I can't get last changes amount.
+            obj_OrderInfo.OrderAmount = totalAmount + commercialTax;// Convert.ToDecimal(lblGrandTotal.Text); When I get directly from lable, I can't get last changes amount.
             obj_OrderInfo.OrderDescription = txtOrderDescription.Text;
             obj_OrderInfo.OrderStatus = "Created";
             obj_OrderInfo.CustomerID = customerID;

@@ -15,13 +15,22 @@ namespace OnlineShopping.Views
     {
 
         /// <summary>
-        /// customer_id control.
+        /// txtCustomerID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl customer_id;
+        protected global::System.Web.UI.WebControls.TextBox txtCustomerID;
+
+        /// <summary>
+        /// txtTax control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTax;
 
         /// <summary>
         /// productList control.
@@ -51,13 +60,13 @@ namespace OnlineShopping.Views
         protected global::System.Web.UI.WebControls.Label lblSubTotal;
 
         /// <summary>
-        /// Label3 control.
+        /// LabelTax control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label3;
+        protected global::System.Web.UI.WebControls.Label LabelTax;
 
         /// <summary>
         /// lblTax control.
