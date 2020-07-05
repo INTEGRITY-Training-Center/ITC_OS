@@ -23,6 +23,8 @@ namespace OnlineShopping.Controllers
                 tbl_order.OrderDate = obj_order.OrderDate;
                 tbl_order.OrderQuantity = obj_order.OrderQuantity;
                 tbl_order.OrderAmount = obj_order.OrderAmount;
+                tbl_order.DiscountAmount = obj_order.DiscountAmount;
+                tbl_order.Tax = obj_order.Tax;
                 tbl_order.OrderDescription = obj_order.OrderDescription;
                 tbl_order.OrderStatus = obj_order.OrderStatus;
                 tbl_order.CustomerID = obj_order.CustomerID;

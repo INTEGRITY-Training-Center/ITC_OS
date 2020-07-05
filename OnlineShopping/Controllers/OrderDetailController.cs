@@ -31,6 +31,7 @@ namespace OnlineShopping.Controllers
                         tbl_orderdetail.ProductID = obj_OrderDetail.ProductID;
                         tbl_orderdetail.Quantity = obj_OrderDetail.Quantity;
                         tbl_orderdetail.Price = obj_OrderDetail.Price;
+                        tbl_orderdetail.DiscountAmount = obj_OrderDetail.DiscountAmount;
 
                         db.tbl_OrderDetails.InsertOnSubmit(tbl_orderdetail);
                         db.SubmitChanges();
