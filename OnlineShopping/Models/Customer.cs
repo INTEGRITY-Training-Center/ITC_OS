@@ -12,6 +12,7 @@ namespace OnlineShopping.Models
         public string CustomerEmail { get; set; }
         public string CustomerMobile { get; set; }
         public string CustomerAddress { get; set; }
+        public string CustomerTownship { get; set; }
         public string CustomerPassword { get; set; }
         public Boolean? IsAdmin { get; set; }
     }
