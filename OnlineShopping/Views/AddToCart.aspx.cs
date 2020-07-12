@@ -223,12 +223,13 @@ namespace OnlineShopping.Views
 
                 totalAmount += obj.Quantity * (obj.ProductPrice - obj.DiscountAmount);
             }
-            decimal commercialTax = totalAmount * (taxPercentage / 100);
+            decimal commercialTax = decimal.Round(totalAmount * (taxPercentage / 100),2);
             //============ Header Data Preparation ============
             OrderInfo obj_OrderInfo = new OrderInfo();
             obj_OrderInfo.OrderDate = DateTime.Now;
             obj_OrderInfo.OrderQuantity = orderQty;
             obj_OrderInfo.Tax = commercialTax;//When I get directly from lable, I can't get last changes amount.
+            obj_OrderInfo.DiscountAmount = Convert.ToDecimal(0);//Will add control later.
             obj_OrderInfo.OrderAmount = totalAmount + commercialTax;// Convert.ToDecimal(lblGrandTotal.Text); When I get directly from lable, I can't get last changes amount.
             obj_OrderInfo.OrderDescription = txtOrderDescription.Text;
             obj_OrderInfo.OrderStatus = "Created";
@@ -244,7 +245,6 @@ namespace OnlineShopping.Views
 
                 //============ Delete Json File ============
                 File.Delete(Server.MapPath("~/CartJson/" + customerID + "_cart.json"));
-                ExportOrderVoucher(return_OrderInfo.OrderID, return_OrderInfo.OrderNo);
             }
 
             Response.Redirect("OrderInfoList.aspx");
@@ -258,59 +258,6 @@ namespace OnlineShopping.Views
 
         }
 
-        private void ExportOrderVoucher(string OrderID, string OrderNo)
-        {
-            #region+++ Report Create ++++
-            OrderController order_controller = new OrderController();
-            OrderInfo obj_OrderInfo = order_controller.GetOrderByID(OrderID);
-            //Header Parameters
-            ReportParameter rp_orderno = new ReportParameter("p_orderno", obj_OrderInfo.OrderNo);
-            ReportParameter rp_order_date = new ReportParameter("p_order_date", String.Format("{0:dd-MMM-yyyy}", obj_OrderInfo.OrderDate));
-            ReportParameter rp_order_quantity = new ReportParameter("p_order_quantity", obj_OrderInfo.OrderQuantity.ToString());
-            ReportParameter rp_customer_name = new ReportParameter("p_customer_name", obj_OrderInfo.CustomerName);
-            ReportParameter rp_customer_address = new ReportParameter("p_customer_address", obj_OrderInfo.CustomerAddress);
-            ReportParameter rp_additional_request = new ReportParameter("p_additional_request", obj_OrderInfo.OrderDescription);
-            //Total Parameters
-            ReportParameter rp_sub_total = new ReportParameter("p_sub_total", String.Format("{0:##,###.00}", obj_OrderInfo.OrderAmount.ToString()));
-            ReportParameter rp_grand_total = new ReportParameter("p_grand_total", obj_OrderInfo.OrderAmount.ToString());
-            ReportParameter rp_tax = new ReportParameter("p_tax", "0.00");
-            //Report DataSet
-            OrderDetailController order_Detail_controller = new OrderDetailController();
-            ReportDataSource rds = new ReportDataSource("DataSet1", order_Detail_controller.GetAllOrderDetailByOrderID(OrderID));
-
-            ReportViewer rvOrderVoucher = new ReportViewer();
-            rvOrderVoucher.LocalReport.Refresh();
-            rvOrderVoucher.LocalReport.DataSources.Clear();
-            rvOrderVoucher.LocalReport.ReportPath = Server.MapPath("RDLC_OrderVoucher.rdlc");
-            rvOrderVoucher.LocalReport.SetParameters(new ReportParameter[] { rp_orderno, rp_order_date, rp_order_quantity, rp_customer_name, rp_customer_address, rp_additional_request, rp_sub_total, rp_grand_total, rp_tax });
-            rvOrderVoucher.LocalReport.DataSources.Add(rds);
-            byte[] bytes = rvOrderVoucher.LocalReport.Render("PDF");
-            #endregion
-
-            MemoryStream memoryStream = new MemoryStream(bytes);
-            memoryStream.Seek(0, SeekOrigin.Begin);
-
-            MailMessage message = new MailMessage();
-            message.Subject = "Order Voucher";
-            message.IsBodyHtml = true;
-            message.From = new MailAddress("dr.mail.mm@gmail.com");
-            message.To.Add(obj_OrderInfo.CustomerEmail);
-            //message.CC.Add("santosh.poojari@gmail.com");
-            Attachment attachment = new Attachment(memoryStream, OrderNo + ".pdf");
-            message.Attachments.Add(attachment);
-            message.Body = String.Format("Dear {0},<p>This is your order voucher. Please see in attached file!</P>", obj_OrderInfo.CustomerName);
-            NetworkCredential cred = new NetworkCredential("dr.mail.mm@gmail.com", "DDrrmm11@@");
-
-            SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.gmail.com";
-            smtp.UseDefaultCredentials = false;
-            smtp.EnableSsl = true;
-            smtp.Credentials = cred;
-            smtp.Port = 587;
-            smtp.Send(message);
-
-            memoryStream.Close();
-            memoryStream.Dispose();
-        }
+        
     }
 }

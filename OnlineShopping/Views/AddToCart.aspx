@@ -6,7 +6,7 @@
             margin: 20px 120px 0px 120px;
         }
         .item {
-            width: 35%;
+            width: 40%;
         }
         .qty {
             width: 15%;
@@ -21,7 +21,7 @@
             text-align: right;
         }
         .total {
-            width: 20%;
+            width: 15%;
             text-align: right;
         }
         hr {

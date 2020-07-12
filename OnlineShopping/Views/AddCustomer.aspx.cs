@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -13,7 +14,13 @@ namespace OnlineShopping.Views
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            DeliFeesController deliFeesController = new DeliFeesController();
+            DataTable dt_township = deliFeesController.GetAllTownship();
+            ddlTownship.DataSource = dt_township;
+            ddlTownship.DataBind();
+            ddlTownship.DataTextField = "Township";
+            ddlTownship.DataValueField = "Township";
+            ddlTownship.DataBind();
         }
 
         protected void btnSignUp_Click(object sender, EventArgs e)
@@ -24,6 +31,7 @@ namespace OnlineShopping.Views
             obj_customer.CustomerEmail = txtEmail.Text.Trim();
             obj_customer.CustomerMobile = txtMobilePhone.Text.Trim();
             obj_customer.CustomerAddress = txtAddress.Text.Trim();
+            obj_customer.CustomerTownship = ddlTownship.SelectedValue;
             obj_customer.CustomerPassword = txtPassword.Text;
             obj_customer.IsAdmin = false;
 
