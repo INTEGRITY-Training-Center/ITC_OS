@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="OnlineShopping" Class="OnlineShoppingDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=DESKTOP-RFEBSHH\SQL2019EXP;Initial Catalog=OnlineShopping;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="OnlineShoppingConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=DESKTOP-RFEBSHH\SQL2019EXP;Initial Catalog=OnlineShopping;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DB_A63E42_olspdataConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.tbl_Product" Member="tbl_Products">
     <Type Name="tbl_Product">
       <Column Name="ProductID" Type="System.String" DbType="Char(36) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -13,28 +13,14 @@
       <Association Name="tbl_Product_tbl_OrderDetail" Member="tbl_OrderDetails" ThisKey="ProductID" OtherKey="ProductID" Type="tbl_OrderDetail" />
     </Type>
   </Table>
-  <Table Name="dbo.tbl_Customer" Member="tbl_Customers">
-    <Type Name="tbl_Customer">
-      <Column Name="CustomerID" Type="System.String" DbType="Char(36) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="CustomerName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="CustomerEmail" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="CustomerMobile" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
-      <Column Name="CustomerAddress" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
-      <Column Name="CustomerPassword" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="IsAdmin" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Association Name="tbl_Customer_tbl_cart" Member="tbl_carts" ThisKey="CustomerID" OtherKey="CustomerID" Type="tbl_cart" />
-      <Association Name="tbl_Customer_tbl_Wishlist" Member="tbl_Wishlists" ThisKey="CustomerID" OtherKey="CustomerID" Type="tbl_Wishlist" />
-      <Association Name="tbl_Customer_tbl_OrderInfo" Member="tbl_OrderInfos" ThisKey="CustomerID" OtherKey="CustomerID" Type="tbl_OrderInfo" />
-    </Type>
-  </Table>
   <Table Name="dbo.tbl_cart" Member="tbl_carts">
     <Type Name="tbl_cart">
       <Column Name="CartID" Type="System.String" DbType="Char(36) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="ProductID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
       <Column Name="CustomerID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
       <Column Name="Quantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="tbl_Customer_tbl_cart" Member="tbl_Customer" ThisKey="CustomerID" OtherKey="CustomerID" Type="tbl_Customer" IsForeignKey="true" />
       <Association Name="tbl_Product_tbl_cart" Member="tbl_Product" ThisKey="ProductID" OtherKey="ProductID" Type="tbl_Product" IsForeignKey="true" />
+      <Association Name="tbl_Customer_tbl_cart" Member="tbl_Customer" ThisKey="CustomerID" OtherKey="CustomerID" Type="tbl_Customer" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.tbl_Wishlist" Member="tbl_Wishlists">
@@ -43,8 +29,8 @@
       <Column Name="ProductID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
       <Column Name="CustomerID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
       <Column Name="AddedDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Association Name="tbl_Customer_tbl_Wishlist" Member="tbl_Customer" ThisKey="CustomerID" OtherKey="CustomerID" Type="tbl_Customer" IsForeignKey="true" />
       <Association Name="tbl_Product_tbl_Wishlist" Member="tbl_Product" ThisKey="ProductID" OtherKey="ProductID" Type="tbl_Product" IsForeignKey="true" />
+      <Association Name="tbl_Customer_tbl_Wishlist" Member="tbl_Customer" ThisKey="CustomerID" OtherKey="CustomerID" Type="tbl_Customer" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.tbl_DiscountType" Member="tbl_DiscountTypes">
@@ -72,20 +58,99 @@
       <Column Name="Discount" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
+  <Table Name="dbo.tbl_CargoSpace" Member="tbl_CargoSpaces">
+    <Type Name="tbl_CargoSpace">
+      <Column Name="DeliCargoSpaceID" Type="System.String" DbType="Char(36) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PackagingUnit" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_DeliGroup" Member="tbl_DeliGroups">
+    <Type Name="tbl_DeliGroup">
+      <Column Name="DeliGroupID" Type="System.String" DbType="Char(36) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DeliGroupName" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="StreetAddress" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_DeliMan" Member="tbl_DeliMans">
+    <Type Name="tbl_DeliMan">
+      <Column Name="DeliManID" Type="System.String" DbType="Char(36) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DeliMan_Name" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="DeliMan_Mobile" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="DeliMan_Email" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="DeliMan_NRC" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="DeliMan_Address" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="DeliMan_Password" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="DeliGroupID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_DeliWeight" Member="tbl_DeliWeights">
+    <Type Name="tbl_DeliWeight">
+      <Column Name="DeliWeightID" Type="System.String" DbType="Char(36) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UM" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="AmountOfWeight" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_Customer" Member="tbl_Customers">
+    <Type Name="tbl_Customer">
+      <Column Name="CustomerID" Type="System.String" DbType="Char(36) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CustomerName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerEmail" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerMobile" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerAddress" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerTownship" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="CustomerPassword" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="IsAdmin" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="tbl_Customer_tbl_cart" Member="tbl_carts" ThisKey="CustomerID" OtherKey="CustomerID" Type="tbl_cart" />
+      <Association Name="tbl_Customer_tbl_Wishlist" Member="tbl_Wishlists" ThisKey="CustomerID" OtherKey="CustomerID" Type="tbl_Wishlist" />
+      <Association Name="tbl_Customer_tbl_OrderInfo" Member="tbl_OrderInfos" ThisKey="CustomerID" OtherKey="CustomerID" Type="tbl_OrderInfo" />
+    </Type>
+  </Table>
   <Table Name="dbo.tbl_OrderInfo" Member="tbl_OrderInfos">
     <Type Name="tbl_OrderInfo">
       <Column Name="OrderID" Type="System.String" DbType="Char(36) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="OrderNo" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
       <Column Name="OrderDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EstDeliveryDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="OrderQuantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DiscountAmount" Type="System.Decimal" DbType="Decimal(16,2)" CanBeNull="true" />
       <Column Name="Tax" Type="System.Decimal" DbType="Decimal(16,2)" CanBeNull="true" />
+      <Column Name="DeliveryCharges" Type="System.Decimal" DbType="Decimal(16,2)" CanBeNull="true" />
       <Column Name="OrderAmount" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
       <Column Name="OrderDescription" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
       <Column Name="OrderStatus" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
       <Column Name="CustomerID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
       <Association Name="tbl_OrderInfo_tbl_OrderDetail" Member="tbl_OrderDetails" ThisKey="OrderID" OtherKey="OrderID" Type="tbl_OrderDetail" />
       <Association Name="tbl_Customer_tbl_OrderInfo" Member="tbl_Customer" ThisKey="CustomerID" OtherKey="CustomerID" Type="tbl_Customer" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_Deli_Fees" Member="tbl_Deli_Fees">
+    <Type Name="tbl_Deli_Fee">
+      <Column Name="Deli_FeesID" Type="System.String" DbType="Char(36) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Township" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Deli_Fees" Type="System.Decimal" DbType="Decimal(18,2) NOT NULL" CanBeNull="false" />
+      <Column Name="DeliCargoSpaceID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
+      <Column Name="DeliWeightID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_DeliItemID" Member="tbl_DeliItemIDs">
+    <Type Name="tbl_DeliItemID">
+      <Column Name="DeliItemID" Type="System.String" DbType="Char(36) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="OrderID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
+      <Column Name="DeliManID" Type="System.String" DbType="Char(36)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="EstDeliveryDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="UpdatedDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="OrderNo" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderAmount" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
+      <Column Name="Tax" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
+      <Column Name="DiscountAmount" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderQuantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerMobile" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerAddress" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderDescription" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
     </Type>
   </Table>
   <Function Name="dbo.sp_GetAllCartByCustomer" Method="sp_GetAllCartByCustomer">

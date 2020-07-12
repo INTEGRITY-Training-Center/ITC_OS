@@ -33,9 +33,6 @@ namespace OnlineShopping.Data
     partial void Inserttbl_Product(tbl_Product instance);
     partial void Updatetbl_Product(tbl_Product instance);
     partial void Deletetbl_Product(tbl_Product instance);
-    partial void Inserttbl_Customer(tbl_Customer instance);
-    partial void Updatetbl_Customer(tbl_Customer instance);
-    partial void Deletetbl_Customer(tbl_Customer instance);
     partial void Inserttbl_cart(tbl_cart instance);
     partial void Updatetbl_cart(tbl_cart instance);
     partial void Deletetbl_cart(tbl_cart instance);
@@ -45,13 +42,34 @@ namespace OnlineShopping.Data
     partial void Inserttbl_OrderDetail(tbl_OrderDetail instance);
     partial void Updatetbl_OrderDetail(tbl_OrderDetail instance);
     partial void Deletetbl_OrderDetail(tbl_OrderDetail instance);
+    partial void Inserttbl_CargoSpace(tbl_CargoSpace instance);
+    partial void Updatetbl_CargoSpace(tbl_CargoSpace instance);
+    partial void Deletetbl_CargoSpace(tbl_CargoSpace instance);
+    partial void Inserttbl_DeliGroup(tbl_DeliGroup instance);
+    partial void Updatetbl_DeliGroup(tbl_DeliGroup instance);
+    partial void Deletetbl_DeliGroup(tbl_DeliGroup instance);
+    partial void Inserttbl_DeliMan(tbl_DeliMan instance);
+    partial void Updatetbl_DeliMan(tbl_DeliMan instance);
+    partial void Deletetbl_DeliMan(tbl_DeliMan instance);
+    partial void Inserttbl_DeliWeight(tbl_DeliWeight instance);
+    partial void Updatetbl_DeliWeight(tbl_DeliWeight instance);
+    partial void Deletetbl_DeliWeight(tbl_DeliWeight instance);
+    partial void Inserttbl_Customer(tbl_Customer instance);
+    partial void Updatetbl_Customer(tbl_Customer instance);
+    partial void Deletetbl_Customer(tbl_Customer instance);
     partial void Inserttbl_OrderInfo(tbl_OrderInfo instance);
     partial void Updatetbl_OrderInfo(tbl_OrderInfo instance);
     partial void Deletetbl_OrderInfo(tbl_OrderInfo instance);
+    partial void Inserttbl_Deli_Fee(tbl_Deli_Fee instance);
+    partial void Updatetbl_Deli_Fee(tbl_Deli_Fee instance);
+    partial void Deletetbl_Deli_Fee(tbl_Deli_Fee instance);
+    partial void Inserttbl_DeliItemID(tbl_DeliItemID instance);
+    partial void Updatetbl_DeliItemID(tbl_DeliItemID instance);
+    partial void Deletetbl_DeliItemID(tbl_DeliItemID instance);
     #endregion
 		
 		public OnlineShoppingDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["OnlineShoppingConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["DB_A63E42_olspdataConnectionString"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -85,14 +103,6 @@ namespace OnlineShopping.Data
 			get
 			{
 				return this.GetTable<tbl_Product>();
-			}
-		}
-		
-		public System.Data.Linq.Table<tbl_Customer> tbl_Customers
-		{
-			get
-			{
-				return this.GetTable<tbl_Customer>();
 			}
 		}
 		
@@ -136,11 +146,67 @@ namespace OnlineShopping.Data
 			}
 		}
 		
+		public System.Data.Linq.Table<tbl_CargoSpace> tbl_CargoSpaces
+		{
+			get
+			{
+				return this.GetTable<tbl_CargoSpace>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tbl_DeliGroup> tbl_DeliGroups
+		{
+			get
+			{
+				return this.GetTable<tbl_DeliGroup>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tbl_DeliMan> tbl_DeliMans
+		{
+			get
+			{
+				return this.GetTable<tbl_DeliMan>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tbl_DeliWeight> tbl_DeliWeights
+		{
+			get
+			{
+				return this.GetTable<tbl_DeliWeight>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tbl_Customer> tbl_Customers
+		{
+			get
+			{
+				return this.GetTable<tbl_Customer>();
+			}
+		}
+		
 		public System.Data.Linq.Table<tbl_OrderInfo> tbl_OrderInfos
 		{
 			get
 			{
 				return this.GetTable<tbl_OrderInfo>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tbl_Deli_Fee> tbl_Deli_Fees
+		{
+			get
+			{
+				return this.GetTable<tbl_Deli_Fee>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tbl_DeliItemID> tbl_DeliItemIDs
+		{
+			get
+			{
+				return this.GetTable<tbl_DeliItemID>();
 			}
 		}
 		
@@ -460,296 +526,6 @@ namespace OnlineShopping.Data
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_Customer")]
-	public partial class tbl_Customer : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _CustomerID;
-		
-		private string _CustomerName;
-		
-		private string _CustomerEmail;
-		
-		private string _CustomerMobile;
-		
-		private string _CustomerAddress;
-		
-		private string _CustomerPassword;
-		
-		private System.Nullable<bool> _IsAdmin;
-		
-		private EntitySet<tbl_cart> _tbl_carts;
-		
-		private EntitySet<tbl_Wishlist> _tbl_Wishlists;
-		
-		private EntitySet<tbl_OrderInfo> _tbl_OrderInfos;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnCustomerIDChanging(string value);
-    partial void OnCustomerIDChanged();
-    partial void OnCustomerNameChanging(string value);
-    partial void OnCustomerNameChanged();
-    partial void OnCustomerEmailChanging(string value);
-    partial void OnCustomerEmailChanged();
-    partial void OnCustomerMobileChanging(string value);
-    partial void OnCustomerMobileChanged();
-    partial void OnCustomerAddressChanging(string value);
-    partial void OnCustomerAddressChanged();
-    partial void OnCustomerPasswordChanging(string value);
-    partial void OnCustomerPasswordChanged();
-    partial void OnIsAdminChanging(System.Nullable<bool> value);
-    partial void OnIsAdminChanged();
-    #endregion
-		
-		public tbl_Customer()
-		{
-			this._tbl_carts = new EntitySet<tbl_cart>(new Action<tbl_cart>(this.attach_tbl_carts), new Action<tbl_cart>(this.detach_tbl_carts));
-			this._tbl_Wishlists = new EntitySet<tbl_Wishlist>(new Action<tbl_Wishlist>(this.attach_tbl_Wishlists), new Action<tbl_Wishlist>(this.detach_tbl_Wishlists));
-			this._tbl_OrderInfos = new EntitySet<tbl_OrderInfo>(new Action<tbl_OrderInfo>(this.attach_tbl_OrderInfos), new Action<tbl_OrderInfo>(this.detach_tbl_OrderInfos));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerID", DbType="Char(36) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string CustomerID
-		{
-			get
-			{
-				return this._CustomerID;
-			}
-			set
-			{
-				if ((this._CustomerID != value))
-				{
-					this.OnCustomerIDChanging(value);
-					this.SendPropertyChanging();
-					this._CustomerID = value;
-					this.SendPropertyChanged("CustomerID");
-					this.OnCustomerIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string CustomerName
-		{
-			get
-			{
-				return this._CustomerName;
-			}
-			set
-			{
-				if ((this._CustomerName != value))
-				{
-					this.OnCustomerNameChanging(value);
-					this.SendPropertyChanging();
-					this._CustomerName = value;
-					this.SendPropertyChanged("CustomerName");
-					this.OnCustomerNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerEmail", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string CustomerEmail
-		{
-			get
-			{
-				return this._CustomerEmail;
-			}
-			set
-			{
-				if ((this._CustomerEmail != value))
-				{
-					this.OnCustomerEmailChanging(value);
-					this.SendPropertyChanging();
-					this._CustomerEmail = value;
-					this.SendPropertyChanged("CustomerEmail");
-					this.OnCustomerEmailChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerMobile", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
-		public string CustomerMobile
-		{
-			get
-			{
-				return this._CustomerMobile;
-			}
-			set
-			{
-				if ((this._CustomerMobile != value))
-				{
-					this.OnCustomerMobileChanging(value);
-					this.SendPropertyChanging();
-					this._CustomerMobile = value;
-					this.SendPropertyChanged("CustomerMobile");
-					this.OnCustomerMobileChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerAddress", DbType="NVarChar(500) NOT NULL", CanBeNull=false)]
-		public string CustomerAddress
-		{
-			get
-			{
-				return this._CustomerAddress;
-			}
-			set
-			{
-				if ((this._CustomerAddress != value))
-				{
-					this.OnCustomerAddressChanging(value);
-					this.SendPropertyChanging();
-					this._CustomerAddress = value;
-					this.SendPropertyChanged("CustomerAddress");
-					this.OnCustomerAddressChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerPassword", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string CustomerPassword
-		{
-			get
-			{
-				return this._CustomerPassword;
-			}
-			set
-			{
-				if ((this._CustomerPassword != value))
-				{
-					this.OnCustomerPasswordChanging(value);
-					this.SendPropertyChanging();
-					this._CustomerPassword = value;
-					this.SendPropertyChanged("CustomerPassword");
-					this.OnCustomerPasswordChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsAdmin", DbType="Bit")]
-		public System.Nullable<bool> IsAdmin
-		{
-			get
-			{
-				return this._IsAdmin;
-			}
-			set
-			{
-				if ((this._IsAdmin != value))
-				{
-					this.OnIsAdminChanging(value);
-					this.SendPropertyChanging();
-					this._IsAdmin = value;
-					this.SendPropertyChanged("IsAdmin");
-					this.OnIsAdminChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Customer_tbl_cart", Storage="_tbl_carts", ThisKey="CustomerID", OtherKey="CustomerID")]
-		public EntitySet<tbl_cart> tbl_carts
-		{
-			get
-			{
-				return this._tbl_carts;
-			}
-			set
-			{
-				this._tbl_carts.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Customer_tbl_Wishlist", Storage="_tbl_Wishlists", ThisKey="CustomerID", OtherKey="CustomerID")]
-		public EntitySet<tbl_Wishlist> tbl_Wishlists
-		{
-			get
-			{
-				return this._tbl_Wishlists;
-			}
-			set
-			{
-				this._tbl_Wishlists.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Customer_tbl_OrderInfo", Storage="_tbl_OrderInfos", ThisKey="CustomerID", OtherKey="CustomerID")]
-		public EntitySet<tbl_OrderInfo> tbl_OrderInfos
-		{
-			get
-			{
-				return this._tbl_OrderInfos;
-			}
-			set
-			{
-				this._tbl_OrderInfos.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_tbl_carts(tbl_cart entity)
-		{
-			this.SendPropertyChanging();
-			entity.tbl_Customer = this;
-		}
-		
-		private void detach_tbl_carts(tbl_cart entity)
-		{
-			this.SendPropertyChanging();
-			entity.tbl_Customer = null;
-		}
-		
-		private void attach_tbl_Wishlists(tbl_Wishlist entity)
-		{
-			this.SendPropertyChanging();
-			entity.tbl_Customer = this;
-		}
-		
-		private void detach_tbl_Wishlists(tbl_Wishlist entity)
-		{
-			this.SendPropertyChanging();
-			entity.tbl_Customer = null;
-		}
-		
-		private void attach_tbl_OrderInfos(tbl_OrderInfo entity)
-		{
-			this.SendPropertyChanging();
-			entity.tbl_Customer = this;
-		}
-		
-		private void detach_tbl_OrderInfos(tbl_OrderInfo entity)
-		{
-			this.SendPropertyChanging();
-			entity.tbl_Customer = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_cart")]
 	public partial class tbl_cart : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -764,9 +540,9 @@ namespace OnlineShopping.Data
 		
 		private int _Quantity;
 		
-		private EntityRef<tbl_Customer> _tbl_Customer;
-		
 		private EntityRef<tbl_Product> _tbl_Product;
+		
+		private EntityRef<tbl_Customer> _tbl_Customer;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -784,8 +560,8 @@ namespace OnlineShopping.Data
 		
 		public tbl_cart()
 		{
-			this._tbl_Customer = default(EntityRef<tbl_Customer>);
 			this._tbl_Product = default(EntityRef<tbl_Product>);
+			this._tbl_Customer = default(EntityRef<tbl_Customer>);
 			OnCreated();
 		}
 		
@@ -877,40 +653,6 @@ namespace OnlineShopping.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Customer_tbl_cart", Storage="_tbl_Customer", ThisKey="CustomerID", OtherKey="CustomerID", IsForeignKey=true)]
-		public tbl_Customer tbl_Customer
-		{
-			get
-			{
-				return this._tbl_Customer.Entity;
-			}
-			set
-			{
-				tbl_Customer previousValue = this._tbl_Customer.Entity;
-				if (((previousValue != value) 
-							|| (this._tbl_Customer.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._tbl_Customer.Entity = null;
-						previousValue.tbl_carts.Remove(this);
-					}
-					this._tbl_Customer.Entity = value;
-					if ((value != null))
-					{
-						value.tbl_carts.Add(this);
-						this._CustomerID = value.CustomerID;
-					}
-					else
-					{
-						this._CustomerID = default(string);
-					}
-					this.SendPropertyChanged("tbl_Customer");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Product_tbl_cart", Storage="_tbl_Product", ThisKey="ProductID", OtherKey="ProductID", IsForeignKey=true)]
 		public tbl_Product tbl_Product
 		{
@@ -941,6 +683,40 @@ namespace OnlineShopping.Data
 						this._ProductID = default(string);
 					}
 					this.SendPropertyChanged("tbl_Product");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Customer_tbl_cart", Storage="_tbl_Customer", ThisKey="CustomerID", OtherKey="CustomerID", IsForeignKey=true)]
+		public tbl_Customer tbl_Customer
+		{
+			get
+			{
+				return this._tbl_Customer.Entity;
+			}
+			set
+			{
+				tbl_Customer previousValue = this._tbl_Customer.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_Customer.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_Customer.Entity = null;
+						previousValue.tbl_carts.Remove(this);
+					}
+					this._tbl_Customer.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_carts.Add(this);
+						this._CustomerID = value.CustomerID;
+					}
+					else
+					{
+						this._CustomerID = default(string);
+					}
+					this.SendPropertyChanged("tbl_Customer");
 				}
 			}
 		}
@@ -980,9 +756,9 @@ namespace OnlineShopping.Data
 		
 		private System.DateTime _AddedDate;
 		
-		private EntityRef<tbl_Customer> _tbl_Customer;
-		
 		private EntityRef<tbl_Product> _tbl_Product;
+		
+		private EntityRef<tbl_Customer> _tbl_Customer;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1000,8 +776,8 @@ namespace OnlineShopping.Data
 		
 		public tbl_Wishlist()
 		{
-			this._tbl_Customer = default(EntityRef<tbl_Customer>);
 			this._tbl_Product = default(EntityRef<tbl_Product>);
+			this._tbl_Customer = default(EntityRef<tbl_Customer>);
 			OnCreated();
 		}
 		
@@ -1093,40 +869,6 @@ namespace OnlineShopping.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Customer_tbl_Wishlist", Storage="_tbl_Customer", ThisKey="CustomerID", OtherKey="CustomerID", IsForeignKey=true)]
-		public tbl_Customer tbl_Customer
-		{
-			get
-			{
-				return this._tbl_Customer.Entity;
-			}
-			set
-			{
-				tbl_Customer previousValue = this._tbl_Customer.Entity;
-				if (((previousValue != value) 
-							|| (this._tbl_Customer.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._tbl_Customer.Entity = null;
-						previousValue.tbl_Wishlists.Remove(this);
-					}
-					this._tbl_Customer.Entity = value;
-					if ((value != null))
-					{
-						value.tbl_Wishlists.Add(this);
-						this._CustomerID = value.CustomerID;
-					}
-					else
-					{
-						this._CustomerID = default(string);
-					}
-					this.SendPropertyChanged("tbl_Customer");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Product_tbl_Wishlist", Storage="_tbl_Product", ThisKey="ProductID", OtherKey="ProductID", IsForeignKey=true)]
 		public tbl_Product tbl_Product
 		{
@@ -1157,6 +899,40 @@ namespace OnlineShopping.Data
 						this._ProductID = default(string);
 					}
 					this.SendPropertyChanged("tbl_Product");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Customer_tbl_Wishlist", Storage="_tbl_Customer", ThisKey="CustomerID", OtherKey="CustomerID", IsForeignKey=true)]
+		public tbl_Customer tbl_Customer
+		{
+			get
+			{
+				return this._tbl_Customer.Entity;
+			}
+			set
+			{
+				tbl_Customer previousValue = this._tbl_Customer.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_Customer.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_Customer.Entity = null;
+						previousValue.tbl_Wishlists.Remove(this);
+					}
+					this._tbl_Customer.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_Wishlists.Add(this);
+						this._CustomerID = value.CustomerID;
+					}
+					else
+					{
+						this._CustomerID = default(string);
+					}
+					this.SendPropertyChanged("tbl_Customer");
 				}
 			}
 		}
@@ -1548,6 +1324,880 @@ namespace OnlineShopping.Data
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_CargoSpace")]
+	public partial class tbl_CargoSpace : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _DeliCargoSpaceID;
+		
+		private string _PackagingUnit;
+		
+		private string _Description;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnDeliCargoSpaceIDChanging(string value);
+    partial void OnDeliCargoSpaceIDChanged();
+    partial void OnPackagingUnitChanging(string value);
+    partial void OnPackagingUnitChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    #endregion
+		
+		public tbl_CargoSpace()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliCargoSpaceID", DbType="Char(36) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string DeliCargoSpaceID
+		{
+			get
+			{
+				return this._DeliCargoSpaceID;
+			}
+			set
+			{
+				if ((this._DeliCargoSpaceID != value))
+				{
+					this.OnDeliCargoSpaceIDChanging(value);
+					this.SendPropertyChanging();
+					this._DeliCargoSpaceID = value;
+					this.SendPropertyChanged("DeliCargoSpaceID");
+					this.OnDeliCargoSpaceIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PackagingUnit", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string PackagingUnit
+		{
+			get
+			{
+				return this._PackagingUnit;
+			}
+			set
+			{
+				if ((this._PackagingUnit != value))
+				{
+					this.OnPackagingUnitChanging(value);
+					this.SendPropertyChanging();
+					this._PackagingUnit = value;
+					this.SendPropertyChanged("PackagingUnit");
+					this.OnPackagingUnitChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_DeliGroup")]
+	public partial class tbl_DeliGroup : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _DeliGroupID;
+		
+		private string _DeliGroupName;
+		
+		private string _StreetAddress;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnDeliGroupIDChanging(string value);
+    partial void OnDeliGroupIDChanged();
+    partial void OnDeliGroupNameChanging(string value);
+    partial void OnDeliGroupNameChanged();
+    partial void OnStreetAddressChanging(string value);
+    partial void OnStreetAddressChanged();
+    #endregion
+		
+		public tbl_DeliGroup()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliGroupID", DbType="Char(36) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string DeliGroupID
+		{
+			get
+			{
+				return this._DeliGroupID;
+			}
+			set
+			{
+				if ((this._DeliGroupID != value))
+				{
+					this.OnDeliGroupIDChanging(value);
+					this.SendPropertyChanging();
+					this._DeliGroupID = value;
+					this.SendPropertyChanged("DeliGroupID");
+					this.OnDeliGroupIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliGroupName", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
+		public string DeliGroupName
+		{
+			get
+			{
+				return this._DeliGroupName;
+			}
+			set
+			{
+				if ((this._DeliGroupName != value))
+				{
+					this.OnDeliGroupNameChanging(value);
+					this.SendPropertyChanging();
+					this._DeliGroupName = value;
+					this.SendPropertyChanged("DeliGroupName");
+					this.OnDeliGroupNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StreetAddress", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
+		public string StreetAddress
+		{
+			get
+			{
+				return this._StreetAddress;
+			}
+			set
+			{
+				if ((this._StreetAddress != value))
+				{
+					this.OnStreetAddressChanging(value);
+					this.SendPropertyChanging();
+					this._StreetAddress = value;
+					this.SendPropertyChanged("StreetAddress");
+					this.OnStreetAddressChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_DeliMan")]
+	public partial class tbl_DeliMan : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _DeliManID;
+		
+		private string _DeliMan_Name;
+		
+		private string _DeliMan_Mobile;
+		
+		private string _DeliMan_Email;
+		
+		private string _DeliMan_NRC;
+		
+		private string _DeliMan_Address;
+		
+		private string _DeliMan_Password;
+		
+		private string _DeliGroupID;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnDeliManIDChanging(string value);
+    partial void OnDeliManIDChanged();
+    partial void OnDeliMan_NameChanging(string value);
+    partial void OnDeliMan_NameChanged();
+    partial void OnDeliMan_MobileChanging(string value);
+    partial void OnDeliMan_MobileChanged();
+    partial void OnDeliMan_EmailChanging(string value);
+    partial void OnDeliMan_EmailChanged();
+    partial void OnDeliMan_NRCChanging(string value);
+    partial void OnDeliMan_NRCChanged();
+    partial void OnDeliMan_AddressChanging(string value);
+    partial void OnDeliMan_AddressChanged();
+    partial void OnDeliMan_PasswordChanging(string value);
+    partial void OnDeliMan_PasswordChanged();
+    partial void OnDeliGroupIDChanging(string value);
+    partial void OnDeliGroupIDChanged();
+    #endregion
+		
+		public tbl_DeliMan()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliManID", DbType="Char(36) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string DeliManID
+		{
+			get
+			{
+				return this._DeliManID;
+			}
+			set
+			{
+				if ((this._DeliManID != value))
+				{
+					this.OnDeliManIDChanging(value);
+					this.SendPropertyChanging();
+					this._DeliManID = value;
+					this.SendPropertyChanged("DeliManID");
+					this.OnDeliManIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliMan_Name", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
+		public string DeliMan_Name
+		{
+			get
+			{
+				return this._DeliMan_Name;
+			}
+			set
+			{
+				if ((this._DeliMan_Name != value))
+				{
+					this.OnDeliMan_NameChanging(value);
+					this.SendPropertyChanging();
+					this._DeliMan_Name = value;
+					this.SendPropertyChanged("DeliMan_Name");
+					this.OnDeliMan_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliMan_Mobile", DbType="VarChar(20) NOT NULL", CanBeNull=false)]
+		public string DeliMan_Mobile
+		{
+			get
+			{
+				return this._DeliMan_Mobile;
+			}
+			set
+			{
+				if ((this._DeliMan_Mobile != value))
+				{
+					this.OnDeliMan_MobileChanging(value);
+					this.SendPropertyChanging();
+					this._DeliMan_Mobile = value;
+					this.SendPropertyChanged("DeliMan_Mobile");
+					this.OnDeliMan_MobileChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliMan_Email", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string DeliMan_Email
+		{
+			get
+			{
+				return this._DeliMan_Email;
+			}
+			set
+			{
+				if ((this._DeliMan_Email != value))
+				{
+					this.OnDeliMan_EmailChanging(value);
+					this.SendPropertyChanging();
+					this._DeliMan_Email = value;
+					this.SendPropertyChanged("DeliMan_Email");
+					this.OnDeliMan_EmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliMan_NRC", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string DeliMan_NRC
+		{
+			get
+			{
+				return this._DeliMan_NRC;
+			}
+			set
+			{
+				if ((this._DeliMan_NRC != value))
+				{
+					this.OnDeliMan_NRCChanging(value);
+					this.SendPropertyChanging();
+					this._DeliMan_NRC = value;
+					this.SendPropertyChanged("DeliMan_NRC");
+					this.OnDeliMan_NRCChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliMan_Address", DbType="VarChar(200) NOT NULL", CanBeNull=false)]
+		public string DeliMan_Address
+		{
+			get
+			{
+				return this._DeliMan_Address;
+			}
+			set
+			{
+				if ((this._DeliMan_Address != value))
+				{
+					this.OnDeliMan_AddressChanging(value);
+					this.SendPropertyChanging();
+					this._DeliMan_Address = value;
+					this.SendPropertyChanged("DeliMan_Address");
+					this.OnDeliMan_AddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliMan_Password", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string DeliMan_Password
+		{
+			get
+			{
+				return this._DeliMan_Password;
+			}
+			set
+			{
+				if ((this._DeliMan_Password != value))
+				{
+					this.OnDeliMan_PasswordChanging(value);
+					this.SendPropertyChanging();
+					this._DeliMan_Password = value;
+					this.SendPropertyChanged("DeliMan_Password");
+					this.OnDeliMan_PasswordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliGroupID", DbType="Char(36) NOT NULL", CanBeNull=false)]
+		public string DeliGroupID
+		{
+			get
+			{
+				return this._DeliGroupID;
+			}
+			set
+			{
+				if ((this._DeliGroupID != value))
+				{
+					this.OnDeliGroupIDChanging(value);
+					this.SendPropertyChanging();
+					this._DeliGroupID = value;
+					this.SendPropertyChanged("DeliGroupID");
+					this.OnDeliGroupIDChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_DeliWeight")]
+	public partial class tbl_DeliWeight : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _DeliWeightID;
+		
+		private string _UM;
+		
+		private double _AmountOfWeight;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnDeliWeightIDChanging(string value);
+    partial void OnDeliWeightIDChanged();
+    partial void OnUMChanging(string value);
+    partial void OnUMChanged();
+    partial void OnAmountOfWeightChanging(double value);
+    partial void OnAmountOfWeightChanged();
+    #endregion
+		
+		public tbl_DeliWeight()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliWeightID", DbType="Char(36) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string DeliWeightID
+		{
+			get
+			{
+				return this._DeliWeightID;
+			}
+			set
+			{
+				if ((this._DeliWeightID != value))
+				{
+					this.OnDeliWeightIDChanging(value);
+					this.SendPropertyChanging();
+					this._DeliWeightID = value;
+					this.SendPropertyChanged("DeliWeightID");
+					this.OnDeliWeightIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UM", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string UM
+		{
+			get
+			{
+				return this._UM;
+			}
+			set
+			{
+				if ((this._UM != value))
+				{
+					this.OnUMChanging(value);
+					this.SendPropertyChanging();
+					this._UM = value;
+					this.SendPropertyChanged("UM");
+					this.OnUMChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AmountOfWeight", DbType="Float NOT NULL")]
+		public double AmountOfWeight
+		{
+			get
+			{
+				return this._AmountOfWeight;
+			}
+			set
+			{
+				if ((this._AmountOfWeight != value))
+				{
+					this.OnAmountOfWeightChanging(value);
+					this.SendPropertyChanging();
+					this._AmountOfWeight = value;
+					this.SendPropertyChanged("AmountOfWeight");
+					this.OnAmountOfWeightChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_Customer")]
+	public partial class tbl_Customer : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _CustomerID;
+		
+		private string _CustomerName;
+		
+		private string _CustomerEmail;
+		
+		private string _CustomerMobile;
+		
+		private string _CustomerAddress;
+		
+		private string _CustomerTownship;
+		
+		private string _CustomerPassword;
+		
+		private bool _IsAdmin;
+		
+		private EntitySet<tbl_cart> _tbl_carts;
+		
+		private EntitySet<tbl_Wishlist> _tbl_Wishlists;
+		
+		private EntitySet<tbl_OrderInfo> _tbl_OrderInfos;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnCustomerIDChanging(string value);
+    partial void OnCustomerIDChanged();
+    partial void OnCustomerNameChanging(string value);
+    partial void OnCustomerNameChanged();
+    partial void OnCustomerEmailChanging(string value);
+    partial void OnCustomerEmailChanged();
+    partial void OnCustomerMobileChanging(string value);
+    partial void OnCustomerMobileChanged();
+    partial void OnCustomerAddressChanging(string value);
+    partial void OnCustomerAddressChanged();
+    partial void OnCustomerTownshipChanging(string value);
+    partial void OnCustomerTownshipChanged();
+    partial void OnCustomerPasswordChanging(string value);
+    partial void OnCustomerPasswordChanged();
+    partial void OnIsAdminChanging(bool value);
+    partial void OnIsAdminChanged();
+    #endregion
+		
+		public tbl_Customer()
+		{
+			this._tbl_carts = new EntitySet<tbl_cart>(new Action<tbl_cart>(this.attach_tbl_carts), new Action<tbl_cart>(this.detach_tbl_carts));
+			this._tbl_Wishlists = new EntitySet<tbl_Wishlist>(new Action<tbl_Wishlist>(this.attach_tbl_Wishlists), new Action<tbl_Wishlist>(this.detach_tbl_Wishlists));
+			this._tbl_OrderInfos = new EntitySet<tbl_OrderInfo>(new Action<tbl_OrderInfo>(this.attach_tbl_OrderInfos), new Action<tbl_OrderInfo>(this.detach_tbl_OrderInfos));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerID", DbType="Char(36) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string CustomerID
+		{
+			get
+			{
+				return this._CustomerID;
+			}
+			set
+			{
+				if ((this._CustomerID != value))
+				{
+					this.OnCustomerIDChanging(value);
+					this.SendPropertyChanging();
+					this._CustomerID = value;
+					this.SendPropertyChanged("CustomerID");
+					this.OnCustomerIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string CustomerName
+		{
+			get
+			{
+				return this._CustomerName;
+			}
+			set
+			{
+				if ((this._CustomerName != value))
+				{
+					this.OnCustomerNameChanging(value);
+					this.SendPropertyChanging();
+					this._CustomerName = value;
+					this.SendPropertyChanged("CustomerName");
+					this.OnCustomerNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerEmail", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string CustomerEmail
+		{
+			get
+			{
+				return this._CustomerEmail;
+			}
+			set
+			{
+				if ((this._CustomerEmail != value))
+				{
+					this.OnCustomerEmailChanging(value);
+					this.SendPropertyChanging();
+					this._CustomerEmail = value;
+					this.SendPropertyChanged("CustomerEmail");
+					this.OnCustomerEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerMobile", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
+		public string CustomerMobile
+		{
+			get
+			{
+				return this._CustomerMobile;
+			}
+			set
+			{
+				if ((this._CustomerMobile != value))
+				{
+					this.OnCustomerMobileChanging(value);
+					this.SendPropertyChanging();
+					this._CustomerMobile = value;
+					this.SendPropertyChanged("CustomerMobile");
+					this.OnCustomerMobileChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerAddress", DbType="NVarChar(500) NOT NULL", CanBeNull=false)]
+		public string CustomerAddress
+		{
+			get
+			{
+				return this._CustomerAddress;
+			}
+			set
+			{
+				if ((this._CustomerAddress != value))
+				{
+					this.OnCustomerAddressChanging(value);
+					this.SendPropertyChanging();
+					this._CustomerAddress = value;
+					this.SendPropertyChanged("CustomerAddress");
+					this.OnCustomerAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerTownship", DbType="NVarChar(100)")]
+		public string CustomerTownship
+		{
+			get
+			{
+				return this._CustomerTownship;
+			}
+			set
+			{
+				if ((this._CustomerTownship != value))
+				{
+					this.OnCustomerTownshipChanging(value);
+					this.SendPropertyChanging();
+					this._CustomerTownship = value;
+					this.SendPropertyChanged("CustomerTownship");
+					this.OnCustomerTownshipChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerPassword", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string CustomerPassword
+		{
+			get
+			{
+				return this._CustomerPassword;
+			}
+			set
+			{
+				if ((this._CustomerPassword != value))
+				{
+					this.OnCustomerPasswordChanging(value);
+					this.SendPropertyChanging();
+					this._CustomerPassword = value;
+					this.SendPropertyChanged("CustomerPassword");
+					this.OnCustomerPasswordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsAdmin", DbType="Bit NOT NULL")]
+		public bool IsAdmin
+		{
+			get
+			{
+				return this._IsAdmin;
+			}
+			set
+			{
+				if ((this._IsAdmin != value))
+				{
+					this.OnIsAdminChanging(value);
+					this.SendPropertyChanging();
+					this._IsAdmin = value;
+					this.SendPropertyChanged("IsAdmin");
+					this.OnIsAdminChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Customer_tbl_cart", Storage="_tbl_carts", ThisKey="CustomerID", OtherKey="CustomerID")]
+		public EntitySet<tbl_cart> tbl_carts
+		{
+			get
+			{
+				return this._tbl_carts;
+			}
+			set
+			{
+				this._tbl_carts.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Customer_tbl_Wishlist", Storage="_tbl_Wishlists", ThisKey="CustomerID", OtherKey="CustomerID")]
+		public EntitySet<tbl_Wishlist> tbl_Wishlists
+		{
+			get
+			{
+				return this._tbl_Wishlists;
+			}
+			set
+			{
+				this._tbl_Wishlists.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_Customer_tbl_OrderInfo", Storage="_tbl_OrderInfos", ThisKey="CustomerID", OtherKey="CustomerID")]
+		public EntitySet<tbl_OrderInfo> tbl_OrderInfos
+		{
+			get
+			{
+				return this._tbl_OrderInfos;
+			}
+			set
+			{
+				this._tbl_OrderInfos.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_tbl_carts(tbl_cart entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Customer = this;
+		}
+		
+		private void detach_tbl_carts(tbl_cart entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Customer = null;
+		}
+		
+		private void attach_tbl_Wishlists(tbl_Wishlist entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Customer = this;
+		}
+		
+		private void detach_tbl_Wishlists(tbl_Wishlist entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Customer = null;
+		}
+		
+		private void attach_tbl_OrderInfos(tbl_OrderInfo entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Customer = this;
+		}
+		
+		private void detach_tbl_OrderInfos(tbl_OrderInfo entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_Customer = null;
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_OrderInfo")]
 	public partial class tbl_OrderInfo : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1560,11 +2210,15 @@ namespace OnlineShopping.Data
 		
 		private System.DateTime _OrderDate;
 		
+		private System.Nullable<System.DateTime> _EstDeliveryDate;
+		
 		private int _OrderQuantity;
 		
 		private System.Nullable<decimal> _DiscountAmount;
 		
 		private System.Nullable<decimal> _Tax;
+		
+		private System.Nullable<decimal> _DeliveryCharges;
 		
 		private decimal _OrderAmount;
 		
@@ -1588,12 +2242,16 @@ namespace OnlineShopping.Data
     partial void OnOrderNoChanged();
     partial void OnOrderDateChanging(System.DateTime value);
     partial void OnOrderDateChanged();
+    partial void OnEstDeliveryDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnEstDeliveryDateChanged();
     partial void OnOrderQuantityChanging(int value);
     partial void OnOrderQuantityChanged();
     partial void OnDiscountAmountChanging(System.Nullable<decimal> value);
     partial void OnDiscountAmountChanged();
     partial void OnTaxChanging(System.Nullable<decimal> value);
     partial void OnTaxChanged();
+    partial void OnDeliveryChargesChanging(System.Nullable<decimal> value);
+    partial void OnDeliveryChargesChanged();
     partial void OnOrderAmountChanging(decimal value);
     partial void OnOrderAmountChanged();
     partial void OnOrderDescriptionChanging(string value);
@@ -1671,6 +2329,26 @@ namespace OnlineShopping.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EstDeliveryDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> EstDeliveryDate
+		{
+			get
+			{
+				return this._EstDeliveryDate;
+			}
+			set
+			{
+				if ((this._EstDeliveryDate != value))
+				{
+					this.OnEstDeliveryDateChanging(value);
+					this.SendPropertyChanging();
+					this._EstDeliveryDate = value;
+					this.SendPropertyChanged("EstDeliveryDate");
+					this.OnEstDeliveryDateChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderQuantity", DbType="Int NOT NULL")]
 		public int OrderQuantity
 		{
@@ -1727,6 +2405,26 @@ namespace OnlineShopping.Data
 					this._Tax = value;
 					this.SendPropertyChanged("Tax");
 					this.OnTaxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliveryCharges", DbType="Decimal(16,2)")]
+		public System.Nullable<decimal> DeliveryCharges
+		{
+			get
+			{
+				return this._DeliveryCharges;
+			}
+			set
+			{
+				if ((this._DeliveryCharges != value))
+				{
+					this.OnDeliveryChargesChanging(value);
+					this.SendPropertyChanging();
+					this._DeliveryCharges = value;
+					this.SendPropertyChanged("DeliveryCharges");
+					this.OnDeliveryChargesChanged();
 				}
 			}
 		}
@@ -1892,6 +2590,586 @@ namespace OnlineShopping.Data
 		{
 			this.SendPropertyChanging();
 			entity.tbl_OrderInfo = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_Deli_Fees")]
+	public partial class tbl_Deli_Fee : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _Deli_FeesID;
+		
+		private string _Township;
+		
+		private decimal _Deli_Fees;
+		
+		private string _DeliCargoSpaceID;
+		
+		private string _DeliWeightID;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnDeli_FeesIDChanging(string value);
+    partial void OnDeli_FeesIDChanged();
+    partial void OnTownshipChanging(string value);
+    partial void OnTownshipChanged();
+    partial void OnDeli_FeesChanging(decimal value);
+    partial void OnDeli_FeesChanged();
+    partial void OnDeliCargoSpaceIDChanging(string value);
+    partial void OnDeliCargoSpaceIDChanged();
+    partial void OnDeliWeightIDChanging(string value);
+    partial void OnDeliWeightIDChanged();
+    #endregion
+		
+		public tbl_Deli_Fee()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Deli_FeesID", DbType="Char(36) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string Deli_FeesID
+		{
+			get
+			{
+				return this._Deli_FeesID;
+			}
+			set
+			{
+				if ((this._Deli_FeesID != value))
+				{
+					this.OnDeli_FeesIDChanging(value);
+					this.SendPropertyChanging();
+					this._Deli_FeesID = value;
+					this.SendPropertyChanged("Deli_FeesID");
+					this.OnDeli_FeesIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Township", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Township
+		{
+			get
+			{
+				return this._Township;
+			}
+			set
+			{
+				if ((this._Township != value))
+				{
+					this.OnTownshipChanging(value);
+					this.SendPropertyChanging();
+					this._Township = value;
+					this.SendPropertyChanged("Township");
+					this.OnTownshipChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Deli_Fees", DbType="Decimal(18,2) NOT NULL")]
+		public decimal Deli_Fees
+		{
+			get
+			{
+				return this._Deli_Fees;
+			}
+			set
+			{
+				if ((this._Deli_Fees != value))
+				{
+					this.OnDeli_FeesChanging(value);
+					this.SendPropertyChanging();
+					this._Deli_Fees = value;
+					this.SendPropertyChanged("Deli_Fees");
+					this.OnDeli_FeesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliCargoSpaceID", DbType="Char(36) NOT NULL", CanBeNull=false)]
+		public string DeliCargoSpaceID
+		{
+			get
+			{
+				return this._DeliCargoSpaceID;
+			}
+			set
+			{
+				if ((this._DeliCargoSpaceID != value))
+				{
+					this.OnDeliCargoSpaceIDChanging(value);
+					this.SendPropertyChanging();
+					this._DeliCargoSpaceID = value;
+					this.SendPropertyChanged("DeliCargoSpaceID");
+					this.OnDeliCargoSpaceIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliWeightID", DbType="Char(36) NOT NULL", CanBeNull=false)]
+		public string DeliWeightID
+		{
+			get
+			{
+				return this._DeliWeightID;
+			}
+			set
+			{
+				if ((this._DeliWeightID != value))
+				{
+					this.OnDeliWeightIDChanging(value);
+					this.SendPropertyChanging();
+					this._DeliWeightID = value;
+					this.SendPropertyChanged("DeliWeightID");
+					this.OnDeliWeightIDChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_DeliItemID")]
+	public partial class tbl_DeliItemID : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _DeliItemID;
+		
+		private string _OrderID;
+		
+		private string _DeliManID;
+		
+		private bool _Status;
+		
+		private System.Nullable<System.DateTime> _EstDeliveryDate;
+		
+		private System.DateTime _CreatedDate;
+		
+		private System.DateTime _UpdatedDate;
+		
+		private string _OrderNo;
+		
+		private decimal _OrderAmount;
+		
+		private decimal _Tax;
+		
+		private decimal _DiscountAmount;
+		
+		private int _OrderQuantity;
+		
+		private string _CustomerName;
+		
+		private string _CustomerMobile;
+		
+		private string _CustomerAddress;
+		
+		private string _OrderDescription;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnDeliItemIDChanging(string value);
+    partial void OnDeliItemIDChanged();
+    partial void OnOrderIDChanging(string value);
+    partial void OnOrderIDChanged();
+    partial void OnDeliManIDChanging(string value);
+    partial void OnDeliManIDChanged();
+    partial void OnStatusChanging(bool value);
+    partial void OnStatusChanged();
+    partial void OnEstDeliveryDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnEstDeliveryDateChanged();
+    partial void OnCreatedDateChanging(System.DateTime value);
+    partial void OnCreatedDateChanged();
+    partial void OnUpdatedDateChanging(System.DateTime value);
+    partial void OnUpdatedDateChanged();
+    partial void OnOrderNoChanging(string value);
+    partial void OnOrderNoChanged();
+    partial void OnOrderAmountChanging(decimal value);
+    partial void OnOrderAmountChanged();
+    partial void OnTaxChanging(decimal value);
+    partial void OnTaxChanged();
+    partial void OnDiscountAmountChanging(decimal value);
+    partial void OnDiscountAmountChanged();
+    partial void OnOrderQuantityChanging(int value);
+    partial void OnOrderQuantityChanged();
+    partial void OnCustomerNameChanging(string value);
+    partial void OnCustomerNameChanged();
+    partial void OnCustomerMobileChanging(string value);
+    partial void OnCustomerMobileChanged();
+    partial void OnCustomerAddressChanging(string value);
+    partial void OnCustomerAddressChanged();
+    partial void OnOrderDescriptionChanging(string value);
+    partial void OnOrderDescriptionChanged();
+    #endregion
+		
+		public tbl_DeliItemID()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliItemID", DbType="Char(36) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string DeliItemID
+		{
+			get
+			{
+				return this._DeliItemID;
+			}
+			set
+			{
+				if ((this._DeliItemID != value))
+				{
+					this.OnDeliItemIDChanging(value);
+					this.SendPropertyChanging();
+					this._DeliItemID = value;
+					this.SendPropertyChanged("DeliItemID");
+					this.OnDeliItemIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderID", DbType="Char(36) NOT NULL", CanBeNull=false)]
+		public string OrderID
+		{
+			get
+			{
+				return this._OrderID;
+			}
+			set
+			{
+				if ((this._OrderID != value))
+				{
+					this.OnOrderIDChanging(value);
+					this.SendPropertyChanging();
+					this._OrderID = value;
+					this.SendPropertyChanged("OrderID");
+					this.OnOrderIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliManID", DbType="Char(36)")]
+		public string DeliManID
+		{
+			get
+			{
+				return this._DeliManID;
+			}
+			set
+			{
+				if ((this._DeliManID != value))
+				{
+					this.OnDeliManIDChanging(value);
+					this.SendPropertyChanging();
+					this._DeliManID = value;
+					this.SendPropertyChanged("DeliManID");
+					this.OnDeliManIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Bit NOT NULL")]
+		public bool Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EstDeliveryDate", DbType="Date")]
+		public System.Nullable<System.DateTime> EstDeliveryDate
+		{
+			get
+			{
+				return this._EstDeliveryDate;
+			}
+			set
+			{
+				if ((this._EstDeliveryDate != value))
+				{
+					this.OnEstDeliveryDateChanging(value);
+					this.SendPropertyChanging();
+					this._EstDeliveryDate = value;
+					this.SendPropertyChanged("EstDeliveryDate");
+					this.OnEstDeliveryDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedDate", DbType="Date NOT NULL")]
+		public System.DateTime CreatedDate
+		{
+			get
+			{
+				return this._CreatedDate;
+			}
+			set
+			{
+				if ((this._CreatedDate != value))
+				{
+					this.OnCreatedDateChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedDate = value;
+					this.SendPropertyChanged("CreatedDate");
+					this.OnCreatedDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdatedDate", DbType="Date NOT NULL")]
+		public System.DateTime UpdatedDate
+		{
+			get
+			{
+				return this._UpdatedDate;
+			}
+			set
+			{
+				if ((this._UpdatedDate != value))
+				{
+					this.OnUpdatedDateChanging(value);
+					this.SendPropertyChanging();
+					this._UpdatedDate = value;
+					this.SendPropertyChanged("UpdatedDate");
+					this.OnUpdatedDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderNo", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
+		public string OrderNo
+		{
+			get
+			{
+				return this._OrderNo;
+			}
+			set
+			{
+				if ((this._OrderNo != value))
+				{
+					this.OnOrderNoChanging(value);
+					this.SendPropertyChanging();
+					this._OrderNo = value;
+					this.SendPropertyChanged("OrderNo");
+					this.OnOrderNoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderAmount", DbType="Decimal(16,2) NOT NULL")]
+		public decimal OrderAmount
+		{
+			get
+			{
+				return this._OrderAmount;
+			}
+			set
+			{
+				if ((this._OrderAmount != value))
+				{
+					this.OnOrderAmountChanging(value);
+					this.SendPropertyChanging();
+					this._OrderAmount = value;
+					this.SendPropertyChanged("OrderAmount");
+					this.OnOrderAmountChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tax", DbType="Decimal(16,2) NOT NULL")]
+		public decimal Tax
+		{
+			get
+			{
+				return this._Tax;
+			}
+			set
+			{
+				if ((this._Tax != value))
+				{
+					this.OnTaxChanging(value);
+					this.SendPropertyChanging();
+					this._Tax = value;
+					this.SendPropertyChanged("Tax");
+					this.OnTaxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiscountAmount", DbType="Decimal(16,2) NOT NULL")]
+		public decimal DiscountAmount
+		{
+			get
+			{
+				return this._DiscountAmount;
+			}
+			set
+			{
+				if ((this._DiscountAmount != value))
+				{
+					this.OnDiscountAmountChanging(value);
+					this.SendPropertyChanging();
+					this._DiscountAmount = value;
+					this.SendPropertyChanged("DiscountAmount");
+					this.OnDiscountAmountChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderQuantity", DbType="Int NOT NULL")]
+		public int OrderQuantity
+		{
+			get
+			{
+				return this._OrderQuantity;
+			}
+			set
+			{
+				if ((this._OrderQuantity != value))
+				{
+					this.OnOrderQuantityChanging(value);
+					this.SendPropertyChanging();
+					this._OrderQuantity = value;
+					this.SendPropertyChanged("OrderQuantity");
+					this.OnOrderQuantityChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string CustomerName
+		{
+			get
+			{
+				return this._CustomerName;
+			}
+			set
+			{
+				if ((this._CustomerName != value))
+				{
+					this.OnCustomerNameChanging(value);
+					this.SendPropertyChanging();
+					this._CustomerName = value;
+					this.SendPropertyChanged("CustomerName");
+					this.OnCustomerNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerMobile", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
+		public string CustomerMobile
+		{
+			get
+			{
+				return this._CustomerMobile;
+			}
+			set
+			{
+				if ((this._CustomerMobile != value))
+				{
+					this.OnCustomerMobileChanging(value);
+					this.SendPropertyChanging();
+					this._CustomerMobile = value;
+					this.SendPropertyChanged("CustomerMobile");
+					this.OnCustomerMobileChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerAddress", DbType="NVarChar(500) NOT NULL", CanBeNull=false)]
+		public string CustomerAddress
+		{
+			get
+			{
+				return this._CustomerAddress;
+			}
+			set
+			{
+				if ((this._CustomerAddress != value))
+				{
+					this.OnCustomerAddressChanging(value);
+					this.SendPropertyChanging();
+					this._CustomerAddress = value;
+					this.SendPropertyChanged("CustomerAddress");
+					this.OnCustomerAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderDescription", DbType="NVarChar(500)")]
+		public string OrderDescription
+		{
+			get
+			{
+				return this._OrderDescription;
+			}
+			set
+			{
+				if ((this._OrderDescription != value))
+				{
+					this.OnOrderDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._OrderDescription = value;
+					this.SendPropertyChanged("OrderDescription");
+					this.OnOrderDescriptionChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
