@@ -20,8 +20,9 @@ namespace OnlineShopping.Controllers
                 tbl_customer.CustomerEmail = obj_customer.CustomerEmail;
                 tbl_customer.CustomerMobile = obj_customer.CustomerMobile;
                 tbl_customer.CustomerAddress = obj_customer.CustomerAddress;
+                tbl_customer.CustomerTownship = obj_customer.CustomerTownship;
                 tbl_customer.CustomerPassword = obj_customer.CustomerPassword;
-                tbl_customer.IsAdmin = obj_customer.IsAdmin;
+                tbl_customer.IsAdmin = Convert.ToBoolean(obj_customer.IsAdmin);
 
                 db.tbl_Customers.InsertOnSubmit(tbl_customer);
                 db.SubmitChanges();
