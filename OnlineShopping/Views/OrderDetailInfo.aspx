@@ -29,8 +29,12 @@
             width: 15%;
             text-align: right;
         }
+        .discount {
+            width: 15%;
+            text-align: right;
+        }
         .total {
-            width: 20%;
+            width: 15%;
             text-align: right;
         }
         hr {
@@ -72,6 +76,15 @@
         .alink:hover{
             text-decoration:none;
         }        
+        .ft{
+            width:40%;
+        }
+        .st{
+            width:3%;
+        }
+        .tt{
+            width:57%;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -97,13 +110,17 @@
                 <td><asp:Label ID="lblOrderQuantity" runat="server" Text=""></asp:Label></td>
                 <td><asp:Label ID="Label9" runat="server" Text="Addition Request"></asp:Label></td>
                 <td>:</td>
-                <td rowspan="2" style="                        vertical-align: top;
-                "><asp:Label ID="lblAdditionalRequest" runat="server" Text=""></asp:Label></td>
+                <td rowspan="3" style="vertical-align: top;"><asp:Label ID="lblAdditionalRequest" runat="server" Text=""></asp:Label></td>
             </tr>
             <tr>
                 <td><asp:Label ID="Label7" runat="server" Text="Customer Name"></asp:Label></td>
                 <td>:</td>
                 <td><asp:Label ID="lblCustomerName" runat="server" Text=""></asp:Label></td>                
+            </tr>
+             <tr>
+                <td><asp:Label ID="Label3" runat="server" Text="Customer Mobile"></asp:Label></td>
+                <td>:</td>
+                <td><asp:Label ID="lblCustomerMobile" runat="server" Text=""></asp:Label></td>                
             </tr>
         </table>
         
@@ -118,6 +135,7 @@
                             <th class="item">Item</th>
                             <th class="qty">Quantity</th>
                             <th class="price">Price</th>
+                            <th class="discount">Discount</th>
                             <th class="total">Total</th>
                         </tr>
                         <tr>
@@ -146,12 +164,15 @@
                         <td class="price">
                             <label><%# Eval("ProductPrice") %></label>     
                         </td>
+                         <td class="discount">
+                            <label><%# Eval("DiscountAmount") %></label>     
+                        </td>
                         <td class="total">
                             <label style="margin-right:15px;"><%# Eval("TotalPrice") %></label>                          
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="4">
+                        <td colspan="5">
                             <hr />
                         </td>
                     </tr>
@@ -160,22 +181,83 @@
         </div>
         <div id="t-div">
             <section class="t-section">
-                <asp:Label ID="Label1" runat="server" Text="Sub Total :"></asp:Label>
-                <asp:Label ID="lblSubTotal" runat="server" Text="0.00"></asp:Label>
+                <div class="ft">
+                     <asp:Label ID="Label1" runat="server" Text="Sub Total"></asp:Label>
+                 </div>
+                <div class="st">
+                    :
+                </div>
+                <div class="tt">
+                    <asp:Label ID="lblSubTotal" runat="server" Text="0.00"></asp:Label>
+                </div>
             </section>
             <hr />
             <section class="t-section">
-                <asp:Label ID="Label3" runat="server" Text="Tax :"></asp:Label>
-                <asp:Label ID="lblTax" runat="server" Text="0.00"></asp:Label>
+                <div class="ft">
+                     <asp:Label ID="LabelTax" runat="server" Text="Tax"></asp:Label>
+                 </div>
+                <div class="st">
+                    :
+                </div>
+                <div class="tt">
+                    <asp:Label ID="lblTax" runat="server" Text="0.00"></asp:Label>
+                </div>
             </section>
             <hr />
+             <section class="t-section">
+                <div class="ft">
+                    <asp:Label ID="Label2" runat="server" Text="Label">Delivery Charges</asp:Label>
+                </div>
+                <div class="st">
+                    :
+                </div>
+                <div class="tt">
+                    <asp:Label ID="lblDeliveryCharges" runat="server" Text="0.00"></asp:Label>
+                </div>
+            </section>
+            <hr />      
             <section class="t-section">
-                <asp:Label ID="Label5" runat="server" Text="Grand Total :"></asp:Label>
-                <asp:Label ID="lblGrandTotal" runat="server" Text="0.00"></asp:Label>
+                <div class="ft">
+                    <asp:Label ID="Label5" runat="server" Text="Grand Total"></asp:Label>
+                 </div>
+                <div class="st">
+                    :
+                </div>
+                <div class="tt">
+                    <asp:Label ID="lblGrandTotal" runat="server" Text="0.00"></asp:Label>
+                </div>
             </section>
             <hr />
+            <div id="deliverydiv" runat="server">
+                <section class="t-section">
+                    <div class="ft">
+                        <asp:Label ID="Label6" runat="server" Text="Label">Est. Delivery Date</asp:Label>
+                    </div>
+                    <div class="st">
+                        :
+                    </div>
+                    <div class="tt">
+                        <input type="date" id="deliveryDate" class="form-control" required runat="server">
+                    </div>
+                </section>
+                <hr />
+            </div>
+            <div id="lbldeliverydiv" runat="server">
+                <section class="t-section">
+                    <div class="ft">
+                        <asp:Label ID="Label12" runat="server" Text="Label">Est. Delivery Date</asp:Label>
+                    </div>
+                    <div class="st">
+                        :
+                    </div>
+                    <div class="tt">
+                        <asp:Label ID="lblDeliveryDate" runat="server" Text=""></asp:Label>
+                    </div>
+                </section>
+                <hr />
+            </div>
             <div style="text-align: right;">
-                <asp:Button ID="btnCheckOrder" OnClientClick="javascript:return confirm('Do you really want to change order status?');"  runat="server" Text="Order" CssClass="btn-dark" Style="font-size: 13px; width: 40%; padding-top: 5px; padding-bottom: 5px;" OnClick="btnCheckOrder_Click"/>
+                <asp:Button ID="btnCheckOrder" OnClientClick="javascript:return confirm('Do you really want to do Order Confirm?');"  runat="server" Text="Order" CssClass="btn-dark" Style="font-size: 13px; width: 40%; padding-top: 5px; padding-bottom: 5px;" OnClick="btnCheckOrder_Click"/>
             </div>
         </div>
     </div>

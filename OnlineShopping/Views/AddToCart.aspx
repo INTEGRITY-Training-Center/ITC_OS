@@ -54,6 +54,15 @@
         .alink img{
             width:20px;
         }
+        .ft{
+            width:40%;
+        }
+        .st{
+            width:3%;
+        }
+        .tt{
+            width:57%;
+        }
         /*.alink{
             border:1px solid silver;
             text-decoration:none;
@@ -74,6 +83,7 @@
         <div style="display:none;">
             <asp:TextBox ID="txtCustomerID" runat="server" CssClass="form-control"></asp:TextBox>
             <asp:TextBox ID="txtTax" runat="server" CssClass="form-control"></asp:TextBox>
+            <asp:TextBox ID="txtCustomerTownship" runat="server" CssClass="form-control"></asp:TextBox>
         </div>
         <div>
             <asp:ListView ID="productList" runat="server" DataKeyNames="ProductID" OnItemCommand="productList_ItemCommand" OnItemDeleting="productList_ItemDeleting">
@@ -145,18 +155,63 @@
         </div>
         <div id="t-div">
             <section class="t-section">
-                <asp:Label ID="Label1" runat="server" Text="Sub Total :"></asp:Label>
-                <asp:Label ID="lblSubTotal" runat="server" Text="0.00"></asp:Label>
+                <div class="ft">
+                    <asp:Label ID="Label1" runat="server" Text="Sub Total"></asp:Label>
+                 </div>
+                <div class="st">
+                    :
+                </div>
+                <div class="tt">
+                    <asp:Label ID="lblSubTotal" runat="server" Text="0.00"></asp:Label>
+                </div>
             </section>
             <hr />
             <section class="t-section">
-                <asp:Label ID="LabelTax" runat="server" Text="Tax () : "></asp:Label>
-                <asp:Label ID="lblTax" runat="server" Text="0.00"></asp:Label>
+                <div class="ft">
+                    <asp:Label ID="LabelTax" runat="server" Text="Tax ()"></asp:Label>
+                 </div>
+                <div class="st">
+                    :
+                </div>
+                <div class="tt">
+                    <asp:Label ID="lblTax" runat="server" Text="0.00"></asp:Label>
+                </div>
             </section>
             <hr />
             <section class="t-section">
-                <asp:Label ID="Label5" runat="server" Text="Grand Total :"></asp:Label>
-                <asp:Label ID="lblGrandTotal" runat="server" Text="0.00"></asp:Label>
+                <div class="ft">
+                    <asp:Label ID="Label7" runat="server" Text="Label">Delivery Township</asp:Label>
+                </div>
+                <div class="st">
+                    :
+                </div>
+                <div class="tt">
+                    <asp:DropDownList ID="ddlTownship" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlTownship_SelectedIndexChanged"></asp:DropDownList>
+                </div>
+            </section>
+            <hr />
+            <section class="t-section">
+                <div class="ft">
+                    <asp:Label ID="Label2" runat="server" Text="Label">Delivery Charges</asp:Label>
+                </div>
+                <div class="st">
+                    :
+                </div>
+                <div class="tt">
+                    <asp:Label ID="lblDeliveryCharges" runat="server" Text="0.00"></asp:Label>
+                </div>
+            </section>
+            <hr />            
+            <section class="t-section">
+                 <div class="ft">
+                      <asp:Label ID="Label5" runat="server" Text="Grand Total"></asp:Label>
+                </div>
+                <div class="st">
+                    :
+                </div>
+                <div class="tt">
+                    <asp:Label ID="lblGrandTotal" runat="server" Text="0.00"></asp:Label>
+                </div>
             </section>
             <hr />
             <div>
@@ -172,7 +227,7 @@
         $(document).ready(function () {
             $(".qty").on("click", "a", function () {
                 var cart_id = $(this).attr("class");
-                var customer_id = $('#<%=txtCustomerID.ClientID%>').val();//can get with only tag name 
+                var customer_id = $('#<%=txtCustomerID.ClientID%>').val();
                 var commertialTax = parseFloat($('#<%=txtTax.ClientID%>').val());
                 if (customer_id.length <= 0) {
                     window.location.href = "/Views/Login.aspx";
@@ -187,6 +242,7 @@
                     var price = parseFloat($(lblprice).text());
                     var discountAmt = parseFloat($(lbldiscount).text());
                     var subTotal = parseFloat($('#<%=lblSubTotal.ClientID%>').html());
+                    var deliveryCharges = parseFloat($('#<%=lblDeliveryCharges.ClientID%>').html());
                     var cartQty = parseInt(0);
                     var lblCartQty = document.getElementById('<%=Master.FindControl("lblCartQty").ClientID%>');
                     if (lblCartQty.innerText.length > 0) {
@@ -205,7 +261,7 @@
                     }
                     var total = parseInt(currentQty) * (price - discountAmt);
                     var tax = subTotal * (parseFloat(commertialTax) / 100);
-                    var grandTotal = subTotal + tax;
+                    var grandTotal = subTotal + tax + deliveryCharges;
 
                     $.ajax({
                         type: "POST",

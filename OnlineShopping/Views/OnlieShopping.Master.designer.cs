@@ -96,6 +96,15 @@ namespace OnlineShopping.Views
         protected global::System.Web.UI.WebControls.HyperLink myOrderLink;
 
         /// <summary>
+        /// deliItemLink control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink deliItemLink;
+
+        /// <summary>
         /// lblCartQty control.
         /// </summary>
         /// <remarks>

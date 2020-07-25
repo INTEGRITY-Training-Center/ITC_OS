@@ -51,6 +51,7 @@ namespace OnlineShopping.Views
                 customerLink.Visible = true;
                 wishlistLink.Visible = false;
                 myOrderLink.Visible = false;
+                deliItemLink.Visible = true;
             }
             else
             {
@@ -59,6 +60,7 @@ namespace OnlineShopping.Views
                 customerLink.Visible = false;
                 wishlistLink.Visible = true;
                 myOrderLink.Visible = true;
+                deliItemLink.Visible = false;
             }
            
         }

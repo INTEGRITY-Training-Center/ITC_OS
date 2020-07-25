@@ -45,7 +45,9 @@ namespace OnlineShopping.Views
 
                             lstCartInfo.Add(obj);
                         }
+                        DataBindToDDL(customerID);
                         DataBindToPage(lstCartInfo, d_total, customerID);
+                        
                     }
                     else
                     {
@@ -57,6 +59,35 @@ namespace OnlineShopping.Views
             {
                 Response.Redirect("Login.aspx");
             }
+        }
+
+        public void DataBindToDDL(string customerID)
+        {
+            decimal deliveryCharges = 0;
+
+            //Get Login Customer's Township
+            CustomerController customerController = new CustomerController();
+            string CustomerTownship = customerController.GetTownshipByCustomerID(customerID);
+            txtCustomerTownship.Text = CustomerTownship;
+
+            DeliFeesController deliFeesController = new DeliFeesController();
+            DataTable dt_township = deliFeesController.GetAllTownship();
+            for (int i = 0; i < dt_township.Rows.Count; i++)
+            {
+                //Get Delivery Charges by Login Customer's Township
+                if (CustomerTownship.CompareTo(dt_township.Rows[i]["Township"].ToString()) == 0)
+                {
+                    deliveryCharges = Convert.ToDecimal(dt_township.Rows[i]["DeliFees"].ToString());
+                }
+
+                ddlTownship.Items.Add((i).ToString());
+                ddlTownship.Items[i].Text = dt_township.Rows[i]["Township"].ToString();
+                //When value are same, we can get wrong selected text because of same value. So combine "Township" and "Fees".
+                ddlTownship.Items[i].Value = dt_township.Rows[i]["Township"].ToString() + "-" + dt_township.Rows[i]["DeliFees"].ToString();
+            }
+
+            ddlTownship.Items.FindByText(CustomerTownship).Selected = true;
+            lblDeliveryCharges.Text = decimal.Round(deliveryCharges, 2).ToString(); 
         }
 
         public void DataBindToPage(List<CartInfo> lstCartInfo, decimal d_total, string customerID)
@@ -74,13 +105,35 @@ namespace OnlineShopping.Views
             }
             decimal taxPercentage = Settings.Default.CommercialTax;
             decimal commercialTaxAmt = decimal.Round(d_total * (taxPercentage / 100), 2);
+            decimal deliveryCharges = Convert.ToDecimal(lblDeliveryCharges.Text);
             lblTax.Text = commercialTaxAmt.ToString();
             lblSubTotal.Text = decimal.Round(d_total, 2).ToString();// String.Format("{0:n}", d_total);  // Output: 1,234.00
-            lblGrandTotal.Text = decimal.Round(d_total + commercialTaxAmt, 2).ToString();// String.Format("{0:n}", d_total);
-            LabelTax.Text = "Tax (" + taxPercentage.ToString() + "%) : ";
+            lblGrandTotal.Text = decimal.Round(d_total + commercialTaxAmt + deliveryCharges, 2).ToString();// String.Format("{0:n}", d_total);
+            LabelTax.Text = "Tax (" + taxPercentage.ToString() + "%)";
+
             //Keep data
             txtCustomerID.Text = customerID;
             txtTax.Text = taxPercentage.ToString();
+        }
+
+        protected void ddlTownship_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            decimal d_SubTotal = Convert.ToDecimal(lblSubTotal.Text);
+            decimal d_Tax = Convert.ToDecimal(lblTax.Text);
+            string[] selectedValue = (ddlTownship.Items[ddlTownship.SelectedIndex].Value).Split('-');
+            decimal deliveryCharges = Convert.ToDecimal(selectedValue[1]);
+
+            lblDeliveryCharges.Text = decimal.Round(deliveryCharges, 2).ToString();
+            lblGrandTotal.Text = decimal.Round(d_SubTotal + d_Tax + deliveryCharges, 2).ToString();
+
+            if (txtCustomerTownship.Text.CompareTo(ddlTownship.Items[ddlTownship.SelectedIndex].Text) == 0)
+            {
+                txtOrderDescription.Text = "";
+            }
+            else
+            {
+                txtOrderDescription.Text = "Changes Delivery Address : " + ddlTownship.Items[ddlTownship.SelectedIndex].Text;
+            }
         }
 
         public static List<CartInfo> GettingJson(string CustomerID)
@@ -189,7 +242,6 @@ namespace OnlineShopping.Views
                     lbl.Text = "";
                 }
                
-
                 MakeJson(lstCartInfo, customerID);
                 
                 DataBindToPage(lstCartInfoWithImage, d_total, customerID);
@@ -203,7 +255,7 @@ namespace OnlineShopping.Views
 
         protected void btnCreateOrder_Click(object sender, EventArgs e)
         {
-            int orderQty = 0;decimal totalAmount = 0;
+            int orderQty = 0;decimal totalAmount = 0, discountAmount = 0;
             string customerID = txtCustomerID.Text;
             decimal taxPercentage = Convert.ToDecimal(txtTax.Text);
 
@@ -213,24 +265,33 @@ namespace OnlineShopping.Views
             List<CartInfo> lstCart = GettingJson(customerID);
             foreach (CartInfo obj in lstCart)
             {
-                orderQty += obj.Quantity;
-                OrderDetail obj_OrderDetail = new OrderDetail();
-                obj_OrderDetail.ProductID = obj.ProductID;
-                obj_OrderDetail.Quantity = obj.Quantity;
-                obj_OrderDetail.Price = obj.ProductPrice;
-                obj_OrderDetail.DiscountAmount = productDiscountController.GetDiscountByProductID(obj.ProductID);
-                lst_OrderDetailInfo.Add(obj_OrderDetail);
+                if(obj.Quantity > 0)
+                {
+                    orderQty += obj.Quantity;
+                    discountAmount = productDiscountController.GetDiscountByProductID(obj.ProductID);
 
-                totalAmount += obj.Quantity * (obj.ProductPrice - obj.DiscountAmount);
+                    OrderDetail obj_OrderDetail = new OrderDetail();
+                    obj_OrderDetail.ProductID = obj.ProductID;
+                    obj_OrderDetail.Quantity = obj.Quantity;
+                    obj_OrderDetail.Price = obj.ProductPrice;
+                    obj_OrderDetail.DiscountAmount = discountAmount;
+                    lst_OrderDetailInfo.Add(obj_OrderDetail);
+
+                    totalAmount += obj.Quantity * (obj.ProductPrice - discountAmount);
+                }                
             }
             decimal commercialTax = decimal.Round(totalAmount * (taxPercentage / 100),2);
+            string[] selectedValue = (ddlTownship.Items[ddlTownship.SelectedIndex].Value).Split('-');
+            decimal deliveryCharges = Convert.ToDecimal(selectedValue[1]);
+
             //============ Header Data Preparation ============
             OrderInfo obj_OrderInfo = new OrderInfo();
             obj_OrderInfo.OrderDate = DateTime.Now;
             obj_OrderInfo.OrderQuantity = orderQty;
             obj_OrderInfo.Tax = commercialTax;//When I get directly from lable, I can't get last changes amount.
             obj_OrderInfo.DiscountAmount = Convert.ToDecimal(0);//Will add control later.
-            obj_OrderInfo.OrderAmount = totalAmount + commercialTax;// Convert.ToDecimal(lblGrandTotal.Text); When I get directly from lable, I can't get last changes amount.
+            obj_OrderInfo.DeliveryCharges = deliveryCharges;
+            obj_OrderInfo.OrderAmount = totalAmount + commercialTax + deliveryCharges;//When I get directly from lable, I can't get last changes amount.
             obj_OrderInfo.OrderDescription = txtOrderDescription.Text;
             obj_OrderInfo.OrderStatus = "Created";
             obj_OrderInfo.CustomerID = customerID;
@@ -255,9 +316,7 @@ namespace OnlineShopping.Views
             ////    string productID = lblProductID.Text;
             ////}
             #endregion
-
         }
 
-        
     }
 }

@@ -124,6 +124,9 @@
                         <li>
                             <asp:HyperLink ID="myOrderLink" runat="server" NavigateUrl="~/Views/OrderInfoList.aspx" CssClass="a-link">MY ORDER</asp:HyperLink>
                         </li>
+                        <li>
+                            <asp:HyperLink ID="deliItemLink" runat="server" NavigateUrl="~/Views/DeliItemList.aspx" CssClass="a-link">DELI ITEM</asp:HyperLink>
+                        </li>
                     </ul>
                 </section>
                 <section id="header-login-section">
