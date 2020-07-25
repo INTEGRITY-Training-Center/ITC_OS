@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="OnlineShopping" Class="OnlineShoppingDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=DESKTOP-RFEBSHH\SQL2019EXP;Initial Catalog=OnlineShopping;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DB_A63E42_olspdataConnectionString" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DB_A63E42_olspdata" Class="OnlineShoppingDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=sql5053.site4now.net;Initial Catalog=DB_A63E42_olspdata;User ID=DB_A63E42_olspdata_admin" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DB_A63E42_olspdataConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.tbl_Product" Member="tbl_Products">
     <Type Name="tbl_Product">
       <Column Name="ProductID" Type="System.String" DbType="Char(36) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -146,6 +146,7 @@
       <Column Name="OrderAmount" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
       <Column Name="Tax" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
       <Column Name="DiscountAmount" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
+      <Column Name="DeliveryCharges" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
       <Column Name="OrderQuantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="CustomerName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
       <Column Name="CustomerMobile" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
@@ -168,48 +169,6 @@
       <Column Name="CustomerAddress" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
-  <Function Name="dbo.sp_GetAllOrderInfo" Method="sp_GetAllOrderInfo">
-    <ElementType Name="sp_GetAllOrderInfoResult">
-      <Column Name="OrderID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
-      <Column Name="OrderNo" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
-      <Column Name="OrderDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="CustomerID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
-      <Column Name="CustomerName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="OrderQuantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="OrderAmount" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
-      <Column Name="CustomerAddress" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
-      <Column Name="OrderDescription" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Column Name="OrderStatus" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.sp_GetAllOrderDetailByOrderID" Method="sp_GetAllOrderDetailByOrderID">
-    <Parameter Name="P_OrderID" Parameter="p_OrderID" Type="System.String" DbType="Char(36)" />
-    <ElementType Name="sp_GetAllOrderDetailByOrderIDResult">
-      <Column Name="OrderID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
-      <Column Name="ProductID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
-      <Column Name="ProductName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="ProductImage" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" />
-      <Column Name="Quantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ProductPrice" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
-      <Column Name="TotalPrice" Type="System.Decimal" DbType="Decimal(27,2)" CanBeNull="true" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.sp_GetOrderByID" Method="sp_GetOrderByID">
-    <Parameter Name="P_OrderID" Parameter="p_OrderID" Type="System.String" DbType="Char(36)" />
-    <ElementType Name="sp_GetOrderByIDResult">
-      <Column Name="OrderID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
-      <Column Name="OrderNo" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
-      <Column Name="OrderDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="OrderQuantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="OrderAmount" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
-      <Column Name="OrderDescription" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Column Name="OrderStatus" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
-      <Column Name="CustomerID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
-      <Column Name="CustomerName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="CustomerAddress" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
-      <Column Name="CustomerEmail" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
   <Function Name="dbo.sp_GetAllWishlistByCustomer" Method="sp_GetAllWishlistByCustomer">
     <Parameter Name="P_CustomerID" Parameter="p_CustomerID" Type="System.String" DbType="Char(36)" />
     <ElementType Name="sp_GetAllWishlistByCustomerResult">
@@ -224,27 +183,123 @@
       <Column Name="CustomerAddress" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
-  <Function Name="dbo.sp_GetAllOrderByCustomerID" Method="sp_GetAllOrderByCustomerID">
-    <Parameter Name="P_CustomerID" Parameter="p_CustomerID" Type="System.String" DbType="Char(36)" />
-    <ElementType Name="sp_GetAllOrderByCustomerIDResult">
-      <Column Name="OrderID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
-      <Column Name="OrderNo" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
-      <Column Name="OrderDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="CustomerID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
-      <Column Name="CustomerName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="OrderQuantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="OrderAmount" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
-      <Column Name="CustomerAddress" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
-      <Column Name="OrderDescription" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Column Name="OrderStatus" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
   <Function Name="dbo.sp_GetDiscountByProductID" Method="sp_GetDiscountByProductID">
     <Parameter Name="P_ProductID" Parameter="p_ProductID" Type="System.String" DbType="Char(36)" />
     <ElementType Name="sp_GetDiscountByProductIDResult">
       <Column Name="DiscountType" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="ProductPrice" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
       <Column Name="DiscountAmount" Type="System.Decimal" DbType="Decimal(16,2)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_GetOrderByID" Method="sp_GetOrderByID">
+    <Parameter Name="P_OrderID" Parameter="p_OrderID" Type="System.String" DbType="Char(36)" />
+    <ElementType Name="sp_GetOrderByIDResult">
+      <Column Name="OrderID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderNo" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="OrderQuantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DeliveryCharges" Type="System.Decimal" DbType="Decimal(16,2)" CanBeNull="true" />
+      <Column Name="EstDeliveryDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Tax" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderAmount" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderDescription" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="OrderStatus" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerAddress" Type="System.String" DbType="NVarChar(602)" CanBeNull="true" />
+      <Column Name="CustomerEmail" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerMobile" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_GetAllOrderDetailByOrderID" Method="sp_GetAllOrderDetailByOrderID">
+    <Parameter Name="P_OrderID" Parameter="p_OrderID" Type="System.String" DbType="Char(36)" />
+    <ElementType Name="sp_GetAllOrderDetailByOrderIDResult">
+      <Column Name="OrderID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
+      <Column Name="ProductID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
+      <Column Name="ProductName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="ProductImage" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" />
+      <Column Name="Quantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DiscountAmount" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
+      <Column Name="ProductPrice" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
+      <Column Name="TotalPrice" Type="System.Decimal" DbType="Decimal(28,2)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_GetAllOrderInfo" Method="sp_GetAllOrderInfo">
+    <ElementType Name="sp_GetAllOrderInfoResult">
+      <Column Name="OrderID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderNo" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EstDeliveryDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CustomerID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderQuantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="OrderAmount" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerAddress" Type="System.String" DbType="NVarChar(602)" CanBeNull="true" />
+      <Column Name="OrderDescription" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="OrderStatus" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_GetAllOrderByCustomerID" Method="sp_GetAllOrderByCustomerID">
+    <Parameter Name="P_CustomerID" Parameter="p_CustomerID" Type="System.String" DbType="Char(36)" />
+    <ElementType Name="sp_GetAllOrderByCustomerIDResult">
+      <Column Name="OrderID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderNo" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EstDeliveryDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CustomerID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderQuantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="OrderAmount" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerAddress" Type="System.String" DbType="NVarChar(602)" CanBeNull="true" />
+      <Column Name="OrderDescription" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="OrderStatus" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_GetAllDeliItem" Method="sp_GetAllDeliItem">
+    <ElementType Name="sp_GetAllDeliItemResult">
+      <Column Name="DeliItemID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderNo" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderQuantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="OrderAmount" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
+      <Column Name="DiscountAmount" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
+      <Column Name="Tax" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
+      <Column Name="DeliveryCharges" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerMobile" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerAddress" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderDescription" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="EstDeliveryDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="UpdatedDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="DeliManID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
+      <Column Name="DeliMan_Name" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="DeliMan_Mobile" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_GetDeliItemByOrderID" Method="sp_GetDeliItemByOrderID">
+    <Parameter Name="P_OrderID" Parameter="p_OrderID" Type="System.String" DbType="Char(36)" />
+    <ElementType Name="sp_GetDeliItemByOrderIDResult">
+      <Column Name="DeliItemID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderNo" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderQuantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="OrderAmount" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
+      <Column Name="DiscountAmount" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
+      <Column Name="Tax" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
+      <Column Name="DeliveryCharges" Type="System.Decimal" DbType="Decimal(16,2) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerMobile" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerAddress" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderDescription" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="EstDeliveryDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="UpdatedDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="DeliManID" Type="System.String" DbType="Char(36) NOT NULL" CanBeNull="false" />
+      <Column Name="DeliMan_Name" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="DeliMan_Mobile" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
 </Database>

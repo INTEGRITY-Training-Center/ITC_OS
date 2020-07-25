@@ -22,7 +22,7 @@ namespace OnlineShopping.Data
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="OnlineShopping")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="DB_A63E42_olspdata")]
 	public partial class OnlineShoppingDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -217,18 +217,18 @@ namespace OnlineShopping.Data
 			return ((ISingleResult<sp_GetAllCartByCustomerResult>)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_GetAllOrderInfo")]
-		public ISingleResult<sp_GetAllOrderInfoResult> sp_GetAllOrderInfo()
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_GetAllWishlistByCustomer")]
+		public ISingleResult<sp_GetAllWishlistByCustomerResult> sp_GetAllWishlistByCustomer([global::System.Data.Linq.Mapping.ParameterAttribute(Name="P_CustomerID", DbType="Char(36)")] string p_CustomerID)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
-			return ((ISingleResult<sp_GetAllOrderInfoResult>)(result.ReturnValue));
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_CustomerID);
+			return ((ISingleResult<sp_GetAllWishlistByCustomerResult>)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_GetAllOrderDetailByOrderID")]
-		public ISingleResult<sp_GetAllOrderDetailByOrderIDResult> sp_GetAllOrderDetailByOrderID([global::System.Data.Linq.Mapping.ParameterAttribute(Name="P_OrderID", DbType="Char(36)")] string p_OrderID)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_GetDiscountByProductID")]
+		public ISingleResult<sp_GetDiscountByProductIDResult> sp_GetDiscountByProductID([global::System.Data.Linq.Mapping.ParameterAttribute(Name="P_ProductID", DbType="Char(36)")] string p_ProductID)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_OrderID);
-			return ((ISingleResult<sp_GetAllOrderDetailByOrderIDResult>)(result.ReturnValue));
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_ProductID);
+			return ((ISingleResult<sp_GetDiscountByProductIDResult>)(result.ReturnValue));
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_GetOrderByID")]
@@ -238,11 +238,18 @@ namespace OnlineShopping.Data
 			return ((ISingleResult<sp_GetOrderByIDResult>)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_GetAllWishlistByCustomer")]
-		public ISingleResult<sp_GetAllWishlistByCustomerResult> sp_GetAllWishlistByCustomer([global::System.Data.Linq.Mapping.ParameterAttribute(Name="P_CustomerID", DbType="Char(36)")] string p_CustomerID)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_GetAllOrderDetailByOrderID")]
+		public ISingleResult<sp_GetAllOrderDetailByOrderIDResult> sp_GetAllOrderDetailByOrderID([global::System.Data.Linq.Mapping.ParameterAttribute(Name="P_OrderID", DbType="Char(36)")] string p_OrderID)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_CustomerID);
-			return ((ISingleResult<sp_GetAllWishlistByCustomerResult>)(result.ReturnValue));
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_OrderID);
+			return ((ISingleResult<sp_GetAllOrderDetailByOrderIDResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_GetAllOrderInfo")]
+		public ISingleResult<sp_GetAllOrderInfoResult> sp_GetAllOrderInfo()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<sp_GetAllOrderInfoResult>)(result.ReturnValue));
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_GetAllOrderByCustomerID")]
@@ -252,11 +259,18 @@ namespace OnlineShopping.Data
 			return ((ISingleResult<sp_GetAllOrderByCustomerIDResult>)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_GetDiscountByProductID")]
-		public ISingleResult<sp_GetDiscountByProductIDResult> sp_GetDiscountByProductID([global::System.Data.Linq.Mapping.ParameterAttribute(Name="P_ProductID", DbType="Char(36)")] string p_ProductID)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_GetAllDeliItem")]
+		public ISingleResult<sp_GetAllDeliItemResult> sp_GetAllDeliItem()
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_ProductID);
-			return ((ISingleResult<sp_GetDiscountByProductIDResult>)(result.ReturnValue));
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<sp_GetAllDeliItemResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_GetDeliItemByOrderID")]
+		public ISingleResult<sp_GetDeliItemByOrderIDResult> sp_GetDeliItemByOrderID([global::System.Data.Linq.Mapping.ParameterAttribute(Name="P_OrderID", DbType="Char(36)")] string p_OrderID)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_OrderID);
+			return ((ISingleResult<sp_GetDeliItemByOrderIDResult>)(result.ReturnValue));
 		}
 	}
 	
@@ -2779,6 +2793,8 @@ namespace OnlineShopping.Data
 		
 		private decimal _DiscountAmount;
 		
+		private decimal _DeliveryCharges;
+		
 		private int _OrderQuantity;
 		
 		private string _CustomerName;
@@ -2815,6 +2831,8 @@ namespace OnlineShopping.Data
     partial void OnTaxChanged();
     partial void OnDiscountAmountChanging(decimal value);
     partial void OnDiscountAmountChanged();
+    partial void OnDeliveryChargesChanging(decimal value);
+    partial void OnDeliveryChargesChanged();
     partial void OnOrderQuantityChanging(int value);
     partial void OnOrderQuantityChanged();
     partial void OnCustomerNameChanging(string value);
@@ -3048,6 +3066,26 @@ namespace OnlineShopping.Data
 					this._DiscountAmount = value;
 					this.SendPropertyChanged("DiscountAmount");
 					this.OnDiscountAmountChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliveryCharges", DbType="Decimal(16,2) NOT NULL")]
+		public decimal DeliveryCharges
+		{
+			get
+			{
+				return this._DeliveryCharges;
+			}
+			set
+			{
+				if ((this._DeliveryCharges != value))
+				{
+					this.OnDeliveryChargesChanging(value);
+					this.SendPropertyChanging();
+					this._DeliveryCharges = value;
+					this.SendPropertyChanged("DeliveryCharges");
+					this.OnDeliveryChargesChanged();
 				}
 			}
 		}
@@ -3361,534 +3399,6 @@ namespace OnlineShopping.Data
 		}
 	}
 	
-	public partial class sp_GetAllOrderInfoResult
-	{
-		
-		private string _OrderID;
-		
-		private string _OrderNo;
-		
-		private System.DateTime _OrderDate;
-		
-		private string _CustomerID;
-		
-		private string _CustomerName;
-		
-		private int _OrderQuantity;
-		
-		private decimal _OrderAmount;
-		
-		private string _CustomerAddress;
-		
-		private string _OrderDescription;
-		
-		private string _OrderStatus;
-		
-		public sp_GetAllOrderInfoResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderID", DbType="Char(36) NOT NULL", CanBeNull=false)]
-		public string OrderID
-		{
-			get
-			{
-				return this._OrderID;
-			}
-			set
-			{
-				if ((this._OrderID != value))
-				{
-					this._OrderID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderNo", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
-		public string OrderNo
-		{
-			get
-			{
-				return this._OrderNo;
-			}
-			set
-			{
-				if ((this._OrderNo != value))
-				{
-					this._OrderNo = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderDate", DbType="DateTime NOT NULL")]
-		public System.DateTime OrderDate
-		{
-			get
-			{
-				return this._OrderDate;
-			}
-			set
-			{
-				if ((this._OrderDate != value))
-				{
-					this._OrderDate = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerID", DbType="Char(36) NOT NULL", CanBeNull=false)]
-		public string CustomerID
-		{
-			get
-			{
-				return this._CustomerID;
-			}
-			set
-			{
-				if ((this._CustomerID != value))
-				{
-					this._CustomerID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string CustomerName
-		{
-			get
-			{
-				return this._CustomerName;
-			}
-			set
-			{
-				if ((this._CustomerName != value))
-				{
-					this._CustomerName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderQuantity", DbType="Int NOT NULL")]
-		public int OrderQuantity
-		{
-			get
-			{
-				return this._OrderQuantity;
-			}
-			set
-			{
-				if ((this._OrderQuantity != value))
-				{
-					this._OrderQuantity = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderAmount", DbType="Decimal(16,2) NOT NULL")]
-		public decimal OrderAmount
-		{
-			get
-			{
-				return this._OrderAmount;
-			}
-			set
-			{
-				if ((this._OrderAmount != value))
-				{
-					this._OrderAmount = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerAddress", DbType="NVarChar(500) NOT NULL", CanBeNull=false)]
-		public string CustomerAddress
-		{
-			get
-			{
-				return this._CustomerAddress;
-			}
-			set
-			{
-				if ((this._CustomerAddress != value))
-				{
-					this._CustomerAddress = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderDescription", DbType="NVarChar(500)")]
-		public string OrderDescription
-		{
-			get
-			{
-				return this._OrderDescription;
-			}
-			set
-			{
-				if ((this._OrderDescription != value))
-				{
-					this._OrderDescription = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderStatus", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
-		public string OrderStatus
-		{
-			get
-			{
-				return this._OrderStatus;
-			}
-			set
-			{
-				if ((this._OrderStatus != value))
-				{
-					this._OrderStatus = value;
-				}
-			}
-		}
-	}
-	
-	public partial class sp_GetAllOrderDetailByOrderIDResult
-	{
-		
-		private string _OrderID;
-		
-		private string _ProductID;
-		
-		private string _ProductName;
-		
-		private System.Data.Linq.Binary _ProductImage;
-		
-		private int _Quantity;
-		
-		private decimal _ProductPrice;
-		
-		private System.Nullable<decimal> _TotalPrice;
-		
-		public sp_GetAllOrderDetailByOrderIDResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderID", DbType="Char(36) NOT NULL", CanBeNull=false)]
-		public string OrderID
-		{
-			get
-			{
-				return this._OrderID;
-			}
-			set
-			{
-				if ((this._OrderID != value))
-				{
-					this._OrderID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProductID", DbType="Char(36) NOT NULL", CanBeNull=false)]
-		public string ProductID
-		{
-			get
-			{
-				return this._ProductID;
-			}
-			set
-			{
-				if ((this._ProductID != value))
-				{
-					this._ProductID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProductName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string ProductName
-		{
-			get
-			{
-				return this._ProductName;
-			}
-			set
-			{
-				if ((this._ProductName != value))
-				{
-					this._ProductName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProductImage", DbType="Image")]
-		public System.Data.Linq.Binary ProductImage
-		{
-			get
-			{
-				return this._ProductImage;
-			}
-			set
-			{
-				if ((this._ProductImage != value))
-				{
-					this._ProductImage = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Quantity", DbType="Int NOT NULL")]
-		public int Quantity
-		{
-			get
-			{
-				return this._Quantity;
-			}
-			set
-			{
-				if ((this._Quantity != value))
-				{
-					this._Quantity = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProductPrice", DbType="Decimal(16,2) NOT NULL")]
-		public decimal ProductPrice
-		{
-			get
-			{
-				return this._ProductPrice;
-			}
-			set
-			{
-				if ((this._ProductPrice != value))
-				{
-					this._ProductPrice = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TotalPrice", DbType="Decimal(27,2)")]
-		public System.Nullable<decimal> TotalPrice
-		{
-			get
-			{
-				return this._TotalPrice;
-			}
-			set
-			{
-				if ((this._TotalPrice != value))
-				{
-					this._TotalPrice = value;
-				}
-			}
-		}
-	}
-	
-	public partial class sp_GetOrderByIDResult
-	{
-		
-		private string _OrderID;
-		
-		private string _OrderNo;
-		
-		private System.DateTime _OrderDate;
-		
-		private int _OrderQuantity;
-		
-		private decimal _OrderAmount;
-		
-		private string _OrderDescription;
-		
-		private string _OrderStatus;
-		
-		private string _CustomerID;
-		
-		private string _CustomerName;
-		
-		private string _CustomerAddress;
-		
-		private string _CustomerEmail;
-		
-		public sp_GetOrderByIDResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderID", DbType="Char(36) NOT NULL", CanBeNull=false)]
-		public string OrderID
-		{
-			get
-			{
-				return this._OrderID;
-			}
-			set
-			{
-				if ((this._OrderID != value))
-				{
-					this._OrderID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderNo", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
-		public string OrderNo
-		{
-			get
-			{
-				return this._OrderNo;
-			}
-			set
-			{
-				if ((this._OrderNo != value))
-				{
-					this._OrderNo = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderDate", DbType="DateTime NOT NULL")]
-		public System.DateTime OrderDate
-		{
-			get
-			{
-				return this._OrderDate;
-			}
-			set
-			{
-				if ((this._OrderDate != value))
-				{
-					this._OrderDate = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderQuantity", DbType="Int NOT NULL")]
-		public int OrderQuantity
-		{
-			get
-			{
-				return this._OrderQuantity;
-			}
-			set
-			{
-				if ((this._OrderQuantity != value))
-				{
-					this._OrderQuantity = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderAmount", DbType="Decimal(16,2) NOT NULL")]
-		public decimal OrderAmount
-		{
-			get
-			{
-				return this._OrderAmount;
-			}
-			set
-			{
-				if ((this._OrderAmount != value))
-				{
-					this._OrderAmount = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderDescription", DbType="NVarChar(500)")]
-		public string OrderDescription
-		{
-			get
-			{
-				return this._OrderDescription;
-			}
-			set
-			{
-				if ((this._OrderDescription != value))
-				{
-					this._OrderDescription = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderStatus", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
-		public string OrderStatus
-		{
-			get
-			{
-				return this._OrderStatus;
-			}
-			set
-			{
-				if ((this._OrderStatus != value))
-				{
-					this._OrderStatus = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerID", DbType="Char(36) NOT NULL", CanBeNull=false)]
-		public string CustomerID
-		{
-			get
-			{
-				return this._CustomerID;
-			}
-			set
-			{
-				if ((this._CustomerID != value))
-				{
-					this._CustomerID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string CustomerName
-		{
-			get
-			{
-				return this._CustomerName;
-			}
-			set
-			{
-				if ((this._CustomerName != value))
-				{
-					this._CustomerName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerAddress", DbType="NVarChar(500) NOT NULL", CanBeNull=false)]
-		public string CustomerAddress
-		{
-			get
-			{
-				return this._CustomerAddress;
-			}
-			set
-			{
-				if ((this._CustomerAddress != value))
-				{
-					this._CustomerAddress = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerEmail", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string CustomerEmail
-		{
-			get
-			{
-				return this._CustomerEmail;
-			}
-			set
-			{
-				if ((this._CustomerEmail != value))
-				{
-					this._CustomerEmail = value;
-				}
-			}
-		}
-	}
-	
 	public partial class sp_GetAllWishlistByCustomerResult
 	{
 		
@@ -4059,7 +3569,69 @@ namespace OnlineShopping.Data
 		}
 	}
 	
-	public partial class sp_GetAllOrderByCustomerIDResult
+	public partial class sp_GetDiscountByProductIDResult
+	{
+		
+		private string _DiscountType;
+		
+		private decimal _ProductPrice;
+		
+		private System.Nullable<decimal> _DiscountAmount;
+		
+		public sp_GetDiscountByProductIDResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiscountType", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string DiscountType
+		{
+			get
+			{
+				return this._DiscountType;
+			}
+			set
+			{
+				if ((this._DiscountType != value))
+				{
+					this._DiscountType = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProductPrice", DbType="Decimal(16,2) NOT NULL")]
+		public decimal ProductPrice
+		{
+			get
+			{
+				return this._ProductPrice;
+			}
+			set
+			{
+				if ((this._ProductPrice != value))
+				{
+					this._ProductPrice = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiscountAmount", DbType="Decimal(16,2)")]
+		public System.Nullable<decimal> DiscountAmount
+		{
+			get
+			{
+				return this._DiscountAmount;
+			}
+			set
+			{
+				if ((this._DiscountAmount != value))
+				{
+					this._DiscountAmount = value;
+				}
+			}
+		}
+	}
+	
+	public partial class sp_GetOrderByIDResult
 	{
 		
 		private string _OrderID;
@@ -4068,21 +3640,31 @@ namespace OnlineShopping.Data
 		
 		private System.DateTime _OrderDate;
 		
-		private string _CustomerID;
-		
-		private string _CustomerName;
-		
 		private int _OrderQuantity;
 		
-		private decimal _OrderAmount;
+		private System.Nullable<decimal> _DeliveryCharges;
 		
-		private string _CustomerAddress;
+		private System.Nullable<System.DateTime> _EstDeliveryDate;
+		
+		private decimal _Tax;
+		
+		private decimal _OrderAmount;
 		
 		private string _OrderDescription;
 		
 		private string _OrderStatus;
 		
-		public sp_GetAllOrderByCustomerIDResult()
+		private string _CustomerID;
+		
+		private string _CustomerName;
+		
+		private string _CustomerAddress;
+		
+		private string _CustomerEmail;
+		
+		private string _CustomerMobile;
+		
+		public sp_GetOrderByIDResult()
 		{
 		}
 		
@@ -4130,6 +3712,444 @@ namespace OnlineShopping.Data
 				if ((this._OrderDate != value))
 				{
 					this._OrderDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderQuantity", DbType="Int NOT NULL")]
+		public int OrderQuantity
+		{
+			get
+			{
+				return this._OrderQuantity;
+			}
+			set
+			{
+				if ((this._OrderQuantity != value))
+				{
+					this._OrderQuantity = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliveryCharges", DbType="Decimal(16,2)")]
+		public System.Nullable<decimal> DeliveryCharges
+		{
+			get
+			{
+				return this._DeliveryCharges;
+			}
+			set
+			{
+				if ((this._DeliveryCharges != value))
+				{
+					this._DeliveryCharges = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EstDeliveryDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> EstDeliveryDate
+		{
+			get
+			{
+				return this._EstDeliveryDate;
+			}
+			set
+			{
+				if ((this._EstDeliveryDate != value))
+				{
+					this._EstDeliveryDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tax", DbType="Decimal(16,2) NOT NULL")]
+		public decimal Tax
+		{
+			get
+			{
+				return this._Tax;
+			}
+			set
+			{
+				if ((this._Tax != value))
+				{
+					this._Tax = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderAmount", DbType="Decimal(16,2) NOT NULL")]
+		public decimal OrderAmount
+		{
+			get
+			{
+				return this._OrderAmount;
+			}
+			set
+			{
+				if ((this._OrderAmount != value))
+				{
+					this._OrderAmount = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderDescription", DbType="NVarChar(500)")]
+		public string OrderDescription
+		{
+			get
+			{
+				return this._OrderDescription;
+			}
+			set
+			{
+				if ((this._OrderDescription != value))
+				{
+					this._OrderDescription = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderStatus", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
+		public string OrderStatus
+		{
+			get
+			{
+				return this._OrderStatus;
+			}
+			set
+			{
+				if ((this._OrderStatus != value))
+				{
+					this._OrderStatus = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerID", DbType="Char(36) NOT NULL", CanBeNull=false)]
+		public string CustomerID
+		{
+			get
+			{
+				return this._CustomerID;
+			}
+			set
+			{
+				if ((this._CustomerID != value))
+				{
+					this._CustomerID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string CustomerName
+		{
+			get
+			{
+				return this._CustomerName;
+			}
+			set
+			{
+				if ((this._CustomerName != value))
+				{
+					this._CustomerName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerAddress", DbType="NVarChar(602)")]
+		public string CustomerAddress
+		{
+			get
+			{
+				return this._CustomerAddress;
+			}
+			set
+			{
+				if ((this._CustomerAddress != value))
+				{
+					this._CustomerAddress = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerEmail", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string CustomerEmail
+		{
+			get
+			{
+				return this._CustomerEmail;
+			}
+			set
+			{
+				if ((this._CustomerEmail != value))
+				{
+					this._CustomerEmail = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerMobile", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
+		public string CustomerMobile
+		{
+			get
+			{
+				return this._CustomerMobile;
+			}
+			set
+			{
+				if ((this._CustomerMobile != value))
+				{
+					this._CustomerMobile = value;
+				}
+			}
+		}
+	}
+	
+	public partial class sp_GetAllOrderDetailByOrderIDResult
+	{
+		
+		private string _OrderID;
+		
+		private string _ProductID;
+		
+		private string _ProductName;
+		
+		private System.Data.Linq.Binary _ProductImage;
+		
+		private int _Quantity;
+		
+		private decimal _DiscountAmount;
+		
+		private decimal _ProductPrice;
+		
+		private System.Nullable<decimal> _TotalPrice;
+		
+		public sp_GetAllOrderDetailByOrderIDResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderID", DbType="Char(36) NOT NULL", CanBeNull=false)]
+		public string OrderID
+		{
+			get
+			{
+				return this._OrderID;
+			}
+			set
+			{
+				if ((this._OrderID != value))
+				{
+					this._OrderID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProductID", DbType="Char(36) NOT NULL", CanBeNull=false)]
+		public string ProductID
+		{
+			get
+			{
+				return this._ProductID;
+			}
+			set
+			{
+				if ((this._ProductID != value))
+				{
+					this._ProductID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProductName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string ProductName
+		{
+			get
+			{
+				return this._ProductName;
+			}
+			set
+			{
+				if ((this._ProductName != value))
+				{
+					this._ProductName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProductImage", DbType="Image")]
+		public System.Data.Linq.Binary ProductImage
+		{
+			get
+			{
+				return this._ProductImage;
+			}
+			set
+			{
+				if ((this._ProductImage != value))
+				{
+					this._ProductImage = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Quantity", DbType="Int NOT NULL")]
+		public int Quantity
+		{
+			get
+			{
+				return this._Quantity;
+			}
+			set
+			{
+				if ((this._Quantity != value))
+				{
+					this._Quantity = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiscountAmount", DbType="Decimal(16,2) NOT NULL")]
+		public decimal DiscountAmount
+		{
+			get
+			{
+				return this._DiscountAmount;
+			}
+			set
+			{
+				if ((this._DiscountAmount != value))
+				{
+					this._DiscountAmount = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProductPrice", DbType="Decimal(16,2) NOT NULL")]
+		public decimal ProductPrice
+		{
+			get
+			{
+				return this._ProductPrice;
+			}
+			set
+			{
+				if ((this._ProductPrice != value))
+				{
+					this._ProductPrice = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TotalPrice", DbType="Decimal(28,2)")]
+		public System.Nullable<decimal> TotalPrice
+		{
+			get
+			{
+				return this._TotalPrice;
+			}
+			set
+			{
+				if ((this._TotalPrice != value))
+				{
+					this._TotalPrice = value;
+				}
+			}
+		}
+	}
+	
+	public partial class sp_GetAllOrderInfoResult
+	{
+		
+		private string _OrderID;
+		
+		private string _OrderNo;
+		
+		private System.DateTime _OrderDate;
+		
+		private System.Nullable<System.DateTime> _EstDeliveryDate;
+		
+		private string _CustomerID;
+		
+		private string _CustomerName;
+		
+		private int _OrderQuantity;
+		
+		private decimal _OrderAmount;
+		
+		private string _CustomerAddress;
+		
+		private string _OrderDescription;
+		
+		private string _OrderStatus;
+		
+		public sp_GetAllOrderInfoResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderID", DbType="Char(36) NOT NULL", CanBeNull=false)]
+		public string OrderID
+		{
+			get
+			{
+				return this._OrderID;
+			}
+			set
+			{
+				if ((this._OrderID != value))
+				{
+					this._OrderID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderNo", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
+		public string OrderNo
+		{
+			get
+			{
+				return this._OrderNo;
+			}
+			set
+			{
+				if ((this._OrderNo != value))
+				{
+					this._OrderNo = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderDate", DbType="DateTime NOT NULL")]
+		public System.DateTime OrderDate
+		{
+			get
+			{
+				return this._OrderDate;
+			}
+			set
+			{
+				if ((this._OrderDate != value))
+				{
+					this._OrderDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EstDeliveryDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> EstDeliveryDate
+		{
+			get
+			{
+				return this._EstDeliveryDate;
+			}
+			set
+			{
+				if ((this._EstDeliveryDate != value))
+				{
+					this._EstDeliveryDate = value;
 				}
 			}
 		}
@@ -4198,7 +4218,7 @@ namespace OnlineShopping.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerAddress", DbType="NVarChar(500) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerAddress", DbType="NVarChar(602)")]
 		public string CustomerAddress
 		{
 			get
@@ -4247,53 +4267,339 @@ namespace OnlineShopping.Data
 		}
 	}
 	
-	public partial class sp_GetDiscountByProductIDResult
+	public partial class sp_GetAllOrderByCustomerIDResult
 	{
 		
-		private string _DiscountType;
+		private string _OrderID;
 		
-		private decimal _ProductPrice;
+		private string _OrderNo;
 		
-		private System.Nullable<decimal> _DiscountAmount;
+		private System.DateTime _OrderDate;
 		
-		public sp_GetDiscountByProductIDResult()
+		private System.Nullable<System.DateTime> _EstDeliveryDate;
+		
+		private string _CustomerID;
+		
+		private string _CustomerName;
+		
+		private int _OrderQuantity;
+		
+		private decimal _OrderAmount;
+		
+		private string _CustomerAddress;
+		
+		private string _OrderDescription;
+		
+		private string _OrderStatus;
+		
+		public sp_GetAllOrderByCustomerIDResult()
 		{
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiscountType", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string DiscountType
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderID", DbType="Char(36) NOT NULL", CanBeNull=false)]
+		public string OrderID
 		{
 			get
 			{
-				return this._DiscountType;
+				return this._OrderID;
 			}
 			set
 			{
-				if ((this._DiscountType != value))
+				if ((this._OrderID != value))
 				{
-					this._DiscountType = value;
+					this._OrderID = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProductPrice", DbType="Decimal(16,2) NOT NULL")]
-		public decimal ProductPrice
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderNo", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
+		public string OrderNo
 		{
 			get
 			{
-				return this._ProductPrice;
+				return this._OrderNo;
 			}
 			set
 			{
-				if ((this._ProductPrice != value))
+				if ((this._OrderNo != value))
 				{
-					this._ProductPrice = value;
+					this._OrderNo = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiscountAmount", DbType="Decimal(16,2)")]
-		public System.Nullable<decimal> DiscountAmount
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderDate", DbType="DateTime NOT NULL")]
+		public System.DateTime OrderDate
+		{
+			get
+			{
+				return this._OrderDate;
+			}
+			set
+			{
+				if ((this._OrderDate != value))
+				{
+					this._OrderDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EstDeliveryDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> EstDeliveryDate
+		{
+			get
+			{
+				return this._EstDeliveryDate;
+			}
+			set
+			{
+				if ((this._EstDeliveryDate != value))
+				{
+					this._EstDeliveryDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerID", DbType="Char(36) NOT NULL", CanBeNull=false)]
+		public string CustomerID
+		{
+			get
+			{
+				return this._CustomerID;
+			}
+			set
+			{
+				if ((this._CustomerID != value))
+				{
+					this._CustomerID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string CustomerName
+		{
+			get
+			{
+				return this._CustomerName;
+			}
+			set
+			{
+				if ((this._CustomerName != value))
+				{
+					this._CustomerName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderQuantity", DbType="Int NOT NULL")]
+		public int OrderQuantity
+		{
+			get
+			{
+				return this._OrderQuantity;
+			}
+			set
+			{
+				if ((this._OrderQuantity != value))
+				{
+					this._OrderQuantity = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderAmount", DbType="Decimal(16,2) NOT NULL")]
+		public decimal OrderAmount
+		{
+			get
+			{
+				return this._OrderAmount;
+			}
+			set
+			{
+				if ((this._OrderAmount != value))
+				{
+					this._OrderAmount = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerAddress", DbType="NVarChar(602)")]
+		public string CustomerAddress
+		{
+			get
+			{
+				return this._CustomerAddress;
+			}
+			set
+			{
+				if ((this._CustomerAddress != value))
+				{
+					this._CustomerAddress = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderDescription", DbType="NVarChar(500)")]
+		public string OrderDescription
+		{
+			get
+			{
+				return this._OrderDescription;
+			}
+			set
+			{
+				if ((this._OrderDescription != value))
+				{
+					this._OrderDescription = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderStatus", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
+		public string OrderStatus
+		{
+			get
+			{
+				return this._OrderStatus;
+			}
+			set
+			{
+				if ((this._OrderStatus != value))
+				{
+					this._OrderStatus = value;
+				}
+			}
+		}
+	}
+	
+	public partial class sp_GetAllDeliItemResult
+	{
+		
+		private string _DeliItemID;
+		
+		private string _OrderID;
+		
+		private string _OrderNo;
+		
+		private int _OrderQuantity;
+		
+		private decimal _OrderAmount;
+		
+		private decimal _DiscountAmount;
+		
+		private decimal _Tax;
+		
+		private decimal _DeliveryCharges;
+		
+		private string _CustomerName;
+		
+		private string _CustomerMobile;
+		
+		private string _CustomerAddress;
+		
+		private string _OrderDescription;
+		
+		private System.Nullable<System.DateTime> _EstDeliveryDate;
+		
+		private System.DateTime _CreatedDate;
+		
+		private System.DateTime _UpdatedDate;
+		
+		private string _DeliManID;
+		
+		private string _DeliMan_Name;
+		
+		private string _DeliMan_Mobile;
+		
+		private bool _Status;
+		
+		public sp_GetAllDeliItemResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliItemID", DbType="Char(36) NOT NULL", CanBeNull=false)]
+		public string DeliItemID
+		{
+			get
+			{
+				return this._DeliItemID;
+			}
+			set
+			{
+				if ((this._DeliItemID != value))
+				{
+					this._DeliItemID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderID", DbType="Char(36) NOT NULL", CanBeNull=false)]
+		public string OrderID
+		{
+			get
+			{
+				return this._OrderID;
+			}
+			set
+			{
+				if ((this._OrderID != value))
+				{
+					this._OrderID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderNo", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
+		public string OrderNo
+		{
+			get
+			{
+				return this._OrderNo;
+			}
+			set
+			{
+				if ((this._OrderNo != value))
+				{
+					this._OrderNo = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderQuantity", DbType="Int NOT NULL")]
+		public int OrderQuantity
+		{
+			get
+			{
+				return this._OrderQuantity;
+			}
+			set
+			{
+				if ((this._OrderQuantity != value))
+				{
+					this._OrderQuantity = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderAmount", DbType="Decimal(16,2) NOT NULL")]
+		public decimal OrderAmount
+		{
+			get
+			{
+				return this._OrderAmount;
+			}
+			set
+			{
+				if ((this._OrderAmount != value))
+				{
+					this._OrderAmount = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiscountAmount", DbType="Decimal(16,2) NOT NULL")]
+		public decimal DiscountAmount
 		{
 			get
 			{
@@ -4304,6 +4610,564 @@ namespace OnlineShopping.Data
 				if ((this._DiscountAmount != value))
 				{
 					this._DiscountAmount = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tax", DbType="Decimal(16,2) NOT NULL")]
+		public decimal Tax
+		{
+			get
+			{
+				return this._Tax;
+			}
+			set
+			{
+				if ((this._Tax != value))
+				{
+					this._Tax = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliveryCharges", DbType="Decimal(16,2) NOT NULL")]
+		public decimal DeliveryCharges
+		{
+			get
+			{
+				return this._DeliveryCharges;
+			}
+			set
+			{
+				if ((this._DeliveryCharges != value))
+				{
+					this._DeliveryCharges = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string CustomerName
+		{
+			get
+			{
+				return this._CustomerName;
+			}
+			set
+			{
+				if ((this._CustomerName != value))
+				{
+					this._CustomerName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerMobile", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
+		public string CustomerMobile
+		{
+			get
+			{
+				return this._CustomerMobile;
+			}
+			set
+			{
+				if ((this._CustomerMobile != value))
+				{
+					this._CustomerMobile = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerAddress", DbType="NVarChar(500) NOT NULL", CanBeNull=false)]
+		public string CustomerAddress
+		{
+			get
+			{
+				return this._CustomerAddress;
+			}
+			set
+			{
+				if ((this._CustomerAddress != value))
+				{
+					this._CustomerAddress = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderDescription", DbType="NVarChar(500)")]
+		public string OrderDescription
+		{
+			get
+			{
+				return this._OrderDescription;
+			}
+			set
+			{
+				if ((this._OrderDescription != value))
+				{
+					this._OrderDescription = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EstDeliveryDate", DbType="Date")]
+		public System.Nullable<System.DateTime> EstDeliveryDate
+		{
+			get
+			{
+				return this._EstDeliveryDate;
+			}
+			set
+			{
+				if ((this._EstDeliveryDate != value))
+				{
+					this._EstDeliveryDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedDate", DbType="Date NOT NULL")]
+		public System.DateTime CreatedDate
+		{
+			get
+			{
+				return this._CreatedDate;
+			}
+			set
+			{
+				if ((this._CreatedDate != value))
+				{
+					this._CreatedDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdatedDate", DbType="Date NOT NULL")]
+		public System.DateTime UpdatedDate
+		{
+			get
+			{
+				return this._UpdatedDate;
+			}
+			set
+			{
+				if ((this._UpdatedDate != value))
+				{
+					this._UpdatedDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliManID", DbType="Char(36) NOT NULL", CanBeNull=false)]
+		public string DeliManID
+		{
+			get
+			{
+				return this._DeliManID;
+			}
+			set
+			{
+				if ((this._DeliManID != value))
+				{
+					this._DeliManID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliMan_Name", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
+		public string DeliMan_Name
+		{
+			get
+			{
+				return this._DeliMan_Name;
+			}
+			set
+			{
+				if ((this._DeliMan_Name != value))
+				{
+					this._DeliMan_Name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliMan_Mobile", DbType="VarChar(20) NOT NULL", CanBeNull=false)]
+		public string DeliMan_Mobile
+		{
+			get
+			{
+				return this._DeliMan_Mobile;
+			}
+			set
+			{
+				if ((this._DeliMan_Mobile != value))
+				{
+					this._DeliMan_Mobile = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Bit NOT NULL")]
+		public bool Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this._Status = value;
+				}
+			}
+		}
+	}
+	
+	public partial class sp_GetDeliItemByOrderIDResult
+	{
+		
+		private string _DeliItemID;
+		
+		private string _OrderID;
+		
+		private string _OrderNo;
+		
+		private int _OrderQuantity;
+		
+		private decimal _OrderAmount;
+		
+		private decimal _DiscountAmount;
+		
+		private decimal _Tax;
+		
+		private decimal _DeliveryCharges;
+		
+		private string _CustomerName;
+		
+		private string _CustomerMobile;
+		
+		private string _CustomerAddress;
+		
+		private string _OrderDescription;
+		
+		private System.Nullable<System.DateTime> _EstDeliveryDate;
+		
+		private System.DateTime _CreatedDate;
+		
+		private System.DateTime _UpdatedDate;
+		
+		private string _DeliManID;
+		
+		private string _DeliMan_Name;
+		
+		private string _DeliMan_Mobile;
+		
+		private bool _Status;
+		
+		public sp_GetDeliItemByOrderIDResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliItemID", DbType="Char(36) NOT NULL", CanBeNull=false)]
+		public string DeliItemID
+		{
+			get
+			{
+				return this._DeliItemID;
+			}
+			set
+			{
+				if ((this._DeliItemID != value))
+				{
+					this._DeliItemID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderID", DbType="Char(36) NOT NULL", CanBeNull=false)]
+		public string OrderID
+		{
+			get
+			{
+				return this._OrderID;
+			}
+			set
+			{
+				if ((this._OrderID != value))
+				{
+					this._OrderID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderNo", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
+		public string OrderNo
+		{
+			get
+			{
+				return this._OrderNo;
+			}
+			set
+			{
+				if ((this._OrderNo != value))
+				{
+					this._OrderNo = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderQuantity", DbType="Int NOT NULL")]
+		public int OrderQuantity
+		{
+			get
+			{
+				return this._OrderQuantity;
+			}
+			set
+			{
+				if ((this._OrderQuantity != value))
+				{
+					this._OrderQuantity = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderAmount", DbType="Decimal(16,2) NOT NULL")]
+		public decimal OrderAmount
+		{
+			get
+			{
+				return this._OrderAmount;
+			}
+			set
+			{
+				if ((this._OrderAmount != value))
+				{
+					this._OrderAmount = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiscountAmount", DbType="Decimal(16,2) NOT NULL")]
+		public decimal DiscountAmount
+		{
+			get
+			{
+				return this._DiscountAmount;
+			}
+			set
+			{
+				if ((this._DiscountAmount != value))
+				{
+					this._DiscountAmount = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tax", DbType="Decimal(16,2) NOT NULL")]
+		public decimal Tax
+		{
+			get
+			{
+				return this._Tax;
+			}
+			set
+			{
+				if ((this._Tax != value))
+				{
+					this._Tax = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliveryCharges", DbType="Decimal(16,2) NOT NULL")]
+		public decimal DeliveryCharges
+		{
+			get
+			{
+				return this._DeliveryCharges;
+			}
+			set
+			{
+				if ((this._DeliveryCharges != value))
+				{
+					this._DeliveryCharges = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string CustomerName
+		{
+			get
+			{
+				return this._CustomerName;
+			}
+			set
+			{
+				if ((this._CustomerName != value))
+				{
+					this._CustomerName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerMobile", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
+		public string CustomerMobile
+		{
+			get
+			{
+				return this._CustomerMobile;
+			}
+			set
+			{
+				if ((this._CustomerMobile != value))
+				{
+					this._CustomerMobile = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerAddress", DbType="NVarChar(500) NOT NULL", CanBeNull=false)]
+		public string CustomerAddress
+		{
+			get
+			{
+				return this._CustomerAddress;
+			}
+			set
+			{
+				if ((this._CustomerAddress != value))
+				{
+					this._CustomerAddress = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderDescription", DbType="NVarChar(500)")]
+		public string OrderDescription
+		{
+			get
+			{
+				return this._OrderDescription;
+			}
+			set
+			{
+				if ((this._OrderDescription != value))
+				{
+					this._OrderDescription = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EstDeliveryDate", DbType="Date")]
+		public System.Nullable<System.DateTime> EstDeliveryDate
+		{
+			get
+			{
+				return this._EstDeliveryDate;
+			}
+			set
+			{
+				if ((this._EstDeliveryDate != value))
+				{
+					this._EstDeliveryDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedDate", DbType="Date NOT NULL")]
+		public System.DateTime CreatedDate
+		{
+			get
+			{
+				return this._CreatedDate;
+			}
+			set
+			{
+				if ((this._CreatedDate != value))
+				{
+					this._CreatedDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdatedDate", DbType="Date NOT NULL")]
+		public System.DateTime UpdatedDate
+		{
+			get
+			{
+				return this._UpdatedDate;
+			}
+			set
+			{
+				if ((this._UpdatedDate != value))
+				{
+					this._UpdatedDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliManID", DbType="Char(36) NOT NULL", CanBeNull=false)]
+		public string DeliManID
+		{
+			get
+			{
+				return this._DeliManID;
+			}
+			set
+			{
+				if ((this._DeliManID != value))
+				{
+					this._DeliManID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliMan_Name", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
+		public string DeliMan_Name
+		{
+			get
+			{
+				return this._DeliMan_Name;
+			}
+			set
+			{
+				if ((this._DeliMan_Name != value))
+				{
+					this._DeliMan_Name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliMan_Mobile", DbType="VarChar(20) NOT NULL", CanBeNull=false)]
+		public string DeliMan_Mobile
+		{
+			get
+			{
+				return this._DeliMan_Mobile;
+			}
+			set
+			{
+				if ((this._DeliMan_Mobile != value))
+				{
+					this._DeliMan_Mobile = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Bit NOT NULL")]
+		public bool Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this._Status = value;
 				}
 			}
 		}
