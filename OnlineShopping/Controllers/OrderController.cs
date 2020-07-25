@@ -22,8 +22,9 @@ namespace OnlineShopping.Controllers
                 tbl_order.OrderNo =  obj_order.OrderNo;
                 tbl_order.OrderDate = obj_order.OrderDate;
                 tbl_order.OrderQuantity = obj_order.OrderQuantity;
-                tbl_order.OrderAmount = obj_order.OrderAmount;
                 tbl_order.DiscountAmount = obj_order.DiscountAmount;
+                tbl_order.DeliveryCharges = obj_order.DeliveryCharges;
+                tbl_order.OrderAmount = obj_order.OrderAmount;
                 tbl_order.Tax = obj_order.Tax;
                 tbl_order.OrderDescription = obj_order.OrderDescription;
                 tbl_order.OrderStatus = obj_order.OrderStatus;
@@ -55,6 +56,7 @@ namespace OnlineShopping.Controllers
             dt.Columns.Add("OrderID", typeof(string));
             dt.Columns.Add("OrderNo", typeof(string));
             dt.Columns.Add("OrderDate", typeof(DateTime));
+            dt.Columns.Add("EstDeliveryDate", typeof(string));
             dt.Columns.Add("CustomerID", typeof(string));
             dt.Columns.Add("CustomerName", typeof(string));
             dt.Columns.Add("OrderQuantity", typeof(int));
@@ -72,6 +74,14 @@ namespace OnlineShopping.Controllers
                     dr["OrderID"] = obj.OrderID;
                     dr["OrderNo"] = obj.OrderNo;
                     dr["OrderDate"] = obj.OrderDate;
+                    if(obj.EstDeliveryDate != null)
+                    {
+                        dr["EstDeliveryDate"] = Convert.ToDateTime(obj.EstDeliveryDate).ToString("dd-MMM-yyyy");
+                    }
+                    else
+                    {
+                        dr["EstDeliveryDate"] = "";
+                    }
                     dr["CustomerID"] = obj.CustomerID;
                     dr["CustomerName"] = obj.CustomerName;
                     dr["OrderQuantity"] = obj.OrderQuantity;
@@ -92,6 +102,7 @@ namespace OnlineShopping.Controllers
             dt.Columns.Add("OrderID", typeof(string));
             dt.Columns.Add("OrderNo", typeof(string));
             dt.Columns.Add("OrderDate", typeof(DateTime));
+            dt.Columns.Add("EstDeliveryDate", typeof(string));
             dt.Columns.Add("CustomerID", typeof(string));
             dt.Columns.Add("CustomerName", typeof(string));
             dt.Columns.Add("OrderQuantity", typeof(int));
@@ -109,6 +120,14 @@ namespace OnlineShopping.Controllers
                     dr["OrderID"] = obj.OrderID;
                     dr["OrderNo"] = obj.OrderNo;
                     dr["OrderDate"] = obj.OrderDate;
+                    if (obj.EstDeliveryDate != null)
+                    {
+                        dr["EstDeliveryDate"] = Convert.ToDateTime(obj.EstDeliveryDate).ToString("dd-MMM-yyyy");
+                    }
+                    else
+                    {
+                        dr["EstDeliveryDate"] = "";
+                    }
                     dr["CustomerID"] = obj.CustomerID;
                     dr["CustomerName"] = obj.CustomerName;
                     dr["OrderQuantity"] = obj.OrderQuantity;
@@ -137,12 +156,16 @@ namespace OnlineShopping.Controllers
                     obj_Order.CustomerID  = obj.CustomerID;
                     obj_Order.CustomerName  = obj.CustomerName;
                     obj_Order.OrderQuantity  = obj.OrderQuantity;
+                    obj_Order.DeliveryCharges = obj.DeliveryCharges;
+                    obj_Order.EstDeliveryDate = obj.EstDeliveryDate;
+                    obj_Order.Tax = obj.Tax;
                     obj_Order.OrderAmount  = obj.OrderAmount;
                     obj_Order.CustomerAddress  = obj.CustomerAddress;
                     obj_Order.CustomerAddress = obj.CustomerAddress;
                     obj_Order.OrderDescription  = obj.OrderDescription;
                     obj_Order.OrderStatus  = obj.OrderStatus;
                     obj_Order.CustomerEmail = obj.CustomerEmail;
+                    obj_Order.CustomerMobile = obj.CustomerMobile;
                 }
             }
 
@@ -157,6 +180,7 @@ namespace OnlineShopping.Controllers
                 if (table_orderinfo != null)
                 {
                     table_orderinfo.OrderStatus = obj_orderInfo.OrderStatus;
+                    table_orderinfo.EstDeliveryDate = obj_orderInfo.EstDeliveryDate;
                     db.SubmitChanges();
                 }
             }

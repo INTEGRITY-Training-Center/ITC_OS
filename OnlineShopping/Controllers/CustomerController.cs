@@ -71,5 +71,20 @@ namespace OnlineShopping.Controllers
 
             return lst_Customer;
         }
+
+        public string GetTownshipByCustomerID(string customerID)
+        {
+            string customerTownship = "";
+            using (OnlineShoppingDataContext db = new OnlineShoppingDataContext())
+            {
+                tbl_Customer cus = (from a in db.tbl_Customers where a.CustomerID == customerID select a).FirstOrDefault();
+
+                if (cus != null)
+                {
+                    customerTownship = cus.CustomerTownship;
+                }
+            }
+            return customerTownship;
+        }
     }
 }

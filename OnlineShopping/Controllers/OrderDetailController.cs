@@ -48,8 +48,9 @@ namespace OnlineShopping.Controllers
             dt.Columns.Add("ProductName", typeof(string));
             dt.Columns.Add("ProductImage", typeof(byte[]));
             dt.Columns.Add("Quantity", typeof(int));
-            dt.Columns.Add("ProductPrice", typeof(string));
-            dt.Columns.Add("TotalPrice", typeof(string));
+            dt.Columns.Add("DiscountAmount", typeof(decimal));            
+            dt.Columns.Add("ProductPrice", typeof(decimal));
+            dt.Columns.Add("TotalPrice", typeof(decimal));
 
             using (OnlineShoppingDataContext db = new OnlineShoppingDataContext())
             {
@@ -62,6 +63,7 @@ namespace OnlineShopping.Controllers
                     dr["ProductName"] = obj.ProductName;
                     dr["ProductImage"] = obj.ProductImage.ToArray();
                     dr["Quantity"] = obj.Quantity;
+                    dr["DiscountAmount"] = obj.DiscountAmount;
                     dr["ProductPrice"] = obj.ProductPrice;
                     dr["TotalPrice"] = obj.TotalPrice;
                     dt.Rows.Add(dr);
